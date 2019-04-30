@@ -96,17 +96,17 @@
 
 
 
-  <meta name="description" content="UDPserver建立UDP服务端,初始化操作">
+  <meta name="description" content="UDPserver建立UDP服务端">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++中建立简单的UDP通信">
 <meta property="og:url" content="http://yoursite.com/2019/04/29/hello-world/index.html">
 <meta property="og:site_name" content="JoeyMar`s Home">
-<meta property="og:description" content="UDPserver建立UDP服务端,初始化操作">
+<meta property="og:description" content="UDPserver建立UDP服务端">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-29T10:18:07.616Z">
+<meta property="og:updated_time" content="2019-04-30T02:12:44.423Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++中建立简单的UDP通信">
-<meta name="twitter:description" content="UDPserver建立UDP服务端,初始化操作">
+<meta name="twitter:description" content="UDPserver建立UDP服务端">
 
 
 
@@ -366,12 +366,24 @@
                 
               
 
-              <time title="创建时间：2019-04-29 10:57:18 / 修改时间：18:18:07" itemprop="dateCreated datePublished" datetime="2019-04-29T10:57:18+08:00">2019-04-29</time>
+              <time title="创建时间：2019-04-29 10:57:18" itemprop="dateCreated datePublished" datetime="2019-04-29T10:57:18+08:00">2019-04-29</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-30 10:12:44" itemprop="dateModified" datetime="2019-04-30T10:12:44+08:00">2019-04-30</time>
               
             
           </span>
@@ -430,9 +442,15 @@
       
 
       
-        <h3 id="UDPserver"><a href="#UDPserver" class="headerlink" title="UDPserver"></a>UDPserver</h3><pre><code>建立UDP服务端,初始化操作
+        <h3 id="UDPserver"><a href="#UDPserver" class="headerlink" title="UDPserver"></a>UDPserver</h3><pre><code>建立UDP服务端
 </code></pre><a id="more"></a>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">SOCKET RecvSocet;</span><br><span class="line"><span class="comment">//UDP服务端地址</span></span><br><span class="line">sockaddr_in RecvAddr;</span><br><span class="line"><span class="comment">//用于存储UDP客户端地址</span></span><br><span class="line">sockaddr_in SenderAddr;</span><br><span class="line"></span><br><span class="line">WSADATA wsaData;</span><br><span class="line">WSAStartup(MAKEWORD(<span class="number">2</span>, <span class="number">2</span>), &amp;wsaData);</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">SOCKET RecvSocet;</span><br><span class="line"><span class="comment">//UDP服务端地址</span></span><br><span class="line">sockaddr_in RecvAddr;</span><br><span class="line"><span class="comment">//用于存储UDP客户端地址</span></span><br><span class="line">sockaddr_in SenderAddr;</span><br><span class="line"></span><br><span class="line">WSADATA wsaData;</span><br><span class="line">WSAStartup(MAKEWORD(<span class="number">2</span>, <span class="number">2</span>), &amp;wsaData);</span><br><span class="line"></span><br><span class="line">RecvSocet = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);</span><br><span class="line"></span><br><span class="line"><span class="comment">//绑定接收端口</span></span><br><span class="line">RecvAddr.sin_family = AF_INET;</span><br><span class="line">RecvAddr.sin_port = htons(<span class="number">20008</span>);</span><br><span class="line">RecvAddr.sin_addr.S_un.S_addr = htonl(INADDR_ANY);</span><br><span class="line">bind(RecvSocet, (SOCKADDR *)&amp;RecvAddr, <span class="keyword">sizeof</span>(RecvAddr));</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"Receiving Data..."</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="comment">//阻塞接收信息</span></span><br><span class="line">	countChar = recvfrom(RecvSocet, RecvBuf, BUFLEN, <span class="number">0</span>, (SOCKADDR *)&amp;SenderAddr, &amp;SenderAddrSize);</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"Finish receiving Data: "</span> &lt;&lt; RecvBuf &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//todo: 处理收到的数据</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="comment">//todo: 处理收到的数据</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">closesocket(RecvSocet);</span><br><span class="line">WSACleanup();</span><br></pre></td></tr></table></figure>
+<pre><code>当接收到数据后，之前定义的SenderAddr对象中已经存储了客户端的相关地址信息，如果需要在业务流程中
+</code></pre><p>对客户端发来消息进行回复，利用该对象即可回复消息</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">sockaddr_in sendbind;</span><br><span class="line">SOCKET SendSocket;</span><br><span class="line"></span><br><span class="line">sendbind.sin_family = AF_INET;</span><br><span class="line">sendbind.sin_port = htons(<span class="number">20008</span>);</span><br><span class="line">sendbind.sin_addr.S_un.S_addr = inet_addr(<span class="string">"127.0.0.1"</span>);</span><br><span class="line"></span><br><span class="line">bind(SendSocket, (SOCKADDR *)&amp;sendbind, <span class="keyword">sizeof</span>(sendbind));</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义回复数据</span></span><br><span class="line"><span class="keyword">char</span> ReturnBuf[<span class="number">1024</span>]= <span class="string">"return Message"</span>;</span><br><span class="line">sendto(SendSocket, (<span class="keyword">char</span> *)&amp;ReturnBuf, <span class="keyword">sizeof</span>(ReturnBuf), <span class="number">0</span>, (SOCKADDR *)&amp;RecvAddr, <span class="keyword">sizeof</span>(RecvAddr));</span><br><span class="line"></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; <span class="string">"finishing sending"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">closesocket(SendSocket);</span><br><span class="line">WSACleanup();</span><br></pre></td></tr></table></figure>
+<pre><code>在这里有个之前踩过的坑，如果分线程进行UDP收发的话，需要重新绑定一个SOCKET对象，当然也可以不绑定
+</code></pre><p>如果不绑定，系统会随机筛选一个IP与端口进行发送。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sockaddr_in sendbind;</span><br><span class="line">SOCKET SendSocket;</span><br><span class="line"></span><br><span class="line">sendbind.sin_family = AF_INET;</span><br><span class="line">sendbind.sin_port = htons(<span class="number">20008</span>);</span><br><span class="line">sendbind.sin_addr.S_un.S_addr = inet_addr(<span class="string">"127.0.0.1"</span>);</span><br><span class="line"><span class="comment">//发送绑定</span></span><br><span class="line">bind(SendSocket, (SOCKADDR *)&amp;sendbind, <span class="keyword">sizeof</span>(sendbind));</span><br></pre></td></tr></table></figure>
 <p>外链: <a href="https://baike.baidu.com/item/C++/99272" target="_blank" rel="noopener">C++定义</a></p>
 
       
