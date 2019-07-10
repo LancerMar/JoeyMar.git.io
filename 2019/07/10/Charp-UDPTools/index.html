@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/JoeyMar.git.io/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/JoeyMar.git.io/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/JoeyMar.git.io/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/JoeyMar.git.io/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/JoeyMar.git.io/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/JoeyMar.git.io/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/JoeyMar.git.io/',
+    scheme: 'Gemini',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="最近因为工作原因，需要通过C#编写界面，同时与第三方编写的C++的库进行UDP通信，封装了一个UDP的帮助类。 需引用的库调用.net提供的socket库进行实现">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSharp实现简单的与C++的UDP通信，采用指针的形式读取传递的结构体">
+<meta property="og:url" content="https://lancermar.github.io/2019/07/10/Charp-UDPTools/index.html">
+<meta property="og:site_name" content="JoeyMar`s Home">
+<meta property="og:description" content="最近因为工作原因，需要通过C#编写界面，同时与第三方编写的C++的库进行UDP通信，封装了一个UDP的帮助类。 需引用的库调用.net提供的socket库进行实现">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-07-10T09:40:13.649Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSharp实现简单的与C++的UDP通信，采用指针的形式读取传递的结构体">
+<meta name="twitter:description" content="最近因为工作原因，需要通过C#编写界面，同时与第三方编写的C++的库进行UDP通信，封装了一个UDP的帮助类。 需引用的库调用.net提供的socket库进行实现">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://lancermar.github.io/2019/07/10/Charp-UDPTools/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>CSharp实现简单的与C++的UDP通信，采用指针的形式读取传递的结构体 | JoeyMar`s Home</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/JoeyMar.git.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JoeyMar`s Home</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/JoeyMar.git.io/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/JoeyMar.git.io/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/JoeyMar.git.io/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/JoeyMar.git.io/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lancermar.github.io/JoeyMar.git.io/2019/07/10/Charp-UDPTools/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="老马">
+      <meta itemprop="description" content="一个人到中年的 IT Farmer">
+      <meta itemprop="image" content="/JoeyMar.git.io/images/LufeiHeader.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JoeyMar`s Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CSharp实现简单的与C++的UDP通信，采用指针的形式读取传递的结构体
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-07-10 16:35:45 / 修改时间：17:40:13" itemprop="dateCreated datePublished" datetime="2019-07-10T16:35:45+08:00">2019-07-10</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/JoeyMar.git.io/categories/CSharp/" itemprop="url" rel="index"><span itemprop="name">CSharp</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近因为工作原因，需要通过C#编写界面，同时与第三方编写的C++的库进行UDP通信，封装了一个UDP的帮助类。</p>
+<h3 id="需引用的库"><a href="#需引用的库" class="headerlink" title="需引用的库"></a>需引用的库</h3><p>调用.net提供的socket库进行实现<br><a id="more"></a><br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Net.Sockets;</span><br></pre></td></tr></table></figure></p>
+<h3 id="单例控制"><a href="#单例控制" class="headerlink" title="单例控制"></a>单例控制</h3><p>采用单例模式，防止UDP接收函数被多次实例化，导致线程管理混乱<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> UDPTools udpToolsInstance = <span class="keyword">new</span> UDPTools();</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> UDPTools UdpToolsInstance</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">get</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> udpToolsInstance;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果需要在构造函数中，对实例化的对象进行初始化操作，需要添加一个对外的初始化接口，在所有该类中的函数调用前调用一次<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 唤醒当前对象，在全局开始时调用一次即可</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Awake</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123; &#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="参数初始化说明"><a href="#参数初始化说明" class="headerlink" title="参数初始化说明"></a>参数初始化说明</h3><p>UDP的监听与发送，采用不一样的端口进行，若采用同一端口，需要在发送数据的时候将监听端口停止，在数据发送完毕后重新启动监听。<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> IPEndPoint ServerIPE;</span><br><span class="line"><span class="keyword">private</span> IPEndPoint ClientIPE;</span><br><span class="line"><span class="keyword">private</span> IPEndPoint DT_UDPIPE;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//服务端监听配置（自填）</span></span><br><span class="line">ServerIP =<span class="string">"127.0.0.1"</span>;</span><br><span class="line">ServerPORT = <span class="string">"8886"</span>;</span><br><span class="line"><span class="comment">//服务端发送配置（自填）</span></span><br><span class="line">ClientIP = <span class="string">"127.0.0.1"</span>;</span><br><span class="line">ClientPORT = <span class="string">"8887"</span>;</span><br><span class="line"><span class="comment">//需要发送到的地址（自填）</span></span><br><span class="line">DT_UDPIP =<span class="string">"127.0.0.1"</span>;</span><br><span class="line">DT_UDPPORT =<span class="string">"8888"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//服务端配置信息（本机）</span></span><br><span class="line">	ServerIPE = <span class="keyword">new</span> IPEndPoint(IPAddress.Parse(ServerIP), Int32.Parse(ServerPORT));</span><br><span class="line">	<span class="comment">//服务端发送配置（本机，与服务端信息区分）</span></span><br><span class="line">	ClientIPE = <span class="keyword">new</span> IPEndPoint(IPAddress.Parse(ClientIP), Int32.Parse(ClientPORT));</span><br><span class="line">	<span class="comment">//客户端配置（需要发送给信息的一方（非本机））</span></span><br><span class="line">	DT_UDPIPE = <span class="keyword">new</span> IPEndPoint(IPAddress.Parse(DT_UDPIP), Int32.Parse(DT_UDPPORT));</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">catch</span> (Exception ex)</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="数据接收端"><a href="#数据接收端" class="headerlink" title="数据接收端"></a>数据接收端</h3><p>接收发来的数据（因为是UDP，不必考虑多连接的问题），采用阻塞的方式接收数据，该函数以线程的方式调用；<br>数据处理部分，如果数据处理时间较长，将影响后续数据的接收，如果需要高速的接受消息，将会大量的丢包，建议初始化全局堆栈对象储存原始数据，再另外启动有个线程处理该数据，经测试该方法在40ms一次的较小数据的处理中可以持续处理出有效数据，并不丢包。<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ReceiveMsg</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">while</span> (isUdpRecv)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">try</span></span><br><span class="line">		&#123;</span><br><span class="line">			EndPoint point = <span class="keyword">new</span> IPEndPoint(IPAddress.Any, <span class="number">0</span>);<span class="comment">//暂存发送方的IP和Port</span></span><br><span class="line">			<span class="keyword">byte</span>[] RecvBuf = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1027</span>];</span><br><span class="line"></span><br><span class="line">			<span class="comment">//接收数据（阻塞）</span></span><br><span class="line">			<span class="keyword">int</span> RecvBufLength = UdpServer.ReceiveFrom(RecvBuf, <span class="keyword">ref</span> point);</span><br><span class="line">			<span class="keyword">string</span> RecvMsg = Encoding.UTF8.GetString(RecvBuf, <span class="number">0</span>, RecvBufLength);</span><br><span class="line">			Console.WriteLine(<span class="string">"从 "</span> + point.ToString() + <span class="string">" 收到数据： "</span> + RecvMsg);</span><br><span class="line"></span><br><span class="line">			<span class="comment">//todo: UDP数据处理(在此处处理收到的数据)</span></span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">catch</span> (Exception ex)</span><br><span class="line">		&#123;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="数据发送端"><a href="#数据发送端" class="headerlink" title="数据发送端"></a>数据发送端</h3><p>发送的socket对象绑定的端口需要区分于接收所用的UDP端口<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 发送消息</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="Msg"&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SendMsg</span>(<span class="params"><span class="keyword">string</span> Msg</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">try</span></span><br><span class="line">	&#123;</span><br><span class="line">		Send_Sock.SendTo(Encoding.UTF8.GetBytes(Msg), DT_UDPIPE);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">catch</span> (Exception ex)</span><br><span class="line">	&#123;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="与C-的数据交互处理（内存对应）"><a href="#与C-的数据交互处理（内存对应）" class="headerlink" title="与C++的数据交互处理（内存对应）"></a>与C++的数据交互处理（内存对应）</h3><h3 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h3><p>以下为UDPTools完整代码，复制粘贴到自己的新建的类中，就可以直接引用<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//封装类型，不可继承</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">sealed</span> <span class="keyword">class</span> <span class="title">UDPTools</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="meta">#<span class="meta-keyword">region</span> 参数</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> UDPTools udpToolsInstance = <span class="keyword">new</span> UDPTools();</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> UDPTools UdpToolsInstance</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">get</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> udpToolsInstance;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">public</span> Socket UdpServer;</span><br><span class="line">	<span class="keyword">private</span> IPEndPoint ServerIPE;</span><br><span class="line">	<span class="keyword">public</span> Socket Send_Sock;</span><br><span class="line">	<span class="keyword">private</span> IPEndPoint ClientIPE;</span><br><span class="line">	<span class="keyword">private</span> IPEndPoint DT_UDPIPE;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//UDP接收消息线程</span></span><br><span class="line">	<span class="keyword">private</span> Thread t_UdpRec;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">bool</span> isUdpRecv = <span class="literal">true</span>;</span><br><span class="line">	<span class="keyword">private</span> Thread t_ProcData;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">string</span> ServerIP = <span class="string">""</span>;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">string</span> ServerPORT = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">string</span> ClientIP = <span class="string">""</span>;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">string</span> ClientPORT = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">string</span> DT_UDPIP = <span class="string">""</span>;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">string</span> DT_UDPPORT = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">	<span class="meta">#<span class="meta-keyword">endregion</span></span></span><br><span class="line"></span><br><span class="line">	<span class="meta">#<span class="meta-keyword">region</span> 构造方法</span></span><br><span class="line">	<span class="comment">//初始化以前调用</span></span><br><span class="line">	<span class="function"><span class="keyword">static</span> <span class="title">UDPTools</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>	&#123;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">UDPTools</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>	&#123;</span><br><span class="line">		Init();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="meta">#<span class="meta-keyword">endregion</span></span></span><br><span class="line"></span><br><span class="line">	<span class="meta">#<span class="meta-keyword">region</span> 公有方法</span></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> 唤醒当前对象，在全局开始时调用一次即可</span></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Awake</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>	&#123; &#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> 发送消息</span></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="Msg"&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SendMsg</span>(<span class="params"><span class="keyword">string</span> Msg</span>)</span></span><br><span class="line"><span class="function"></span>	&#123;</span><br><span class="line">		<span class="keyword">try</span></span><br><span class="line">		&#123;</span><br><span class="line">			Send_Sock.SendTo(Encoding.UTF8.GetBytes(Msg), DT_UDPIPE);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">catch</span> (Exception ex)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//LogHelper.WriteLog(LogFile.Error, ServerIPE.ToString() + " 向 " + ClientIPE.ToString() + " 发送消息异常！ " + ex.ToString());</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> 程序退出时调用</span></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">bool</span> <span class="title">Exist</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>	&#123;</span><br><span class="line">		<span class="keyword">bool</span> result = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">try</span></span><br><span class="line">		&#123;</span><br><span class="line">			UdpServer.Close();</span><br><span class="line">			Send_Sock.Close();</span><br><span class="line">			UdpServer.Dispose();</span><br><span class="line">			Send_Sock.Dispose();</span><br><span class="line">			isUdpRecv = <span class="literal">false</span>;</span><br><span class="line">			t_UdpRec.Abort();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">			result = <span class="literal">true</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">catch</span> (Exception ex)</span><br><span class="line">		&#123;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> result;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="meta">#<span class="meta-keyword">endregion</span></span></span><br><span class="line"></span><br><span class="line">	<span class="meta">#<span class="meta-keyword">region</span> 私有方法</span></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> 初始化UDP连接(全局仅允许调用一次)</span></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">Init</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>	&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//服务端监听配置（自填）</span></span><br><span class="line">		ServerIP =<span class="string">"127.0.0.1"</span>;</span><br><span class="line">		ServerPORT = <span class="string">"8886"</span>;</span><br><span class="line">		<span class="comment">//服务端发送配置（自填）</span></span><br><span class="line">		ClientIP = <span class="string">"127.0.0.1"</span>;</span><br><span class="line">		ClientPORT = <span class="string">"8887"</span>;</span><br><span class="line">		<span class="comment">//需要发送到的地址（自填）</span></span><br><span class="line">		DT_UDPIP =<span class="string">"127.0.0.1"</span>;</span><br><span class="line">		DT_UDPPORT =<span class="string">"8888"</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">try</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//服务端配置信息（本机）</span></span><br><span class="line">			ServerIPE = <span class="keyword">new</span> IPEndPoint(IPAddress.Parse(ServerIP), Int32.Parse(ServerPORT));</span><br><span class="line">			<span class="comment">//服务端发送配置（本机，与服务端信息区分）</span></span><br><span class="line">			ClientIPE = <span class="keyword">new</span> IPEndPoint(IPAddress.Parse(ClientIP), Int32.Parse(ClientPORT));</span><br><span class="line">			<span class="comment">//客户端配置（需要发送给信息的一方（非本机））</span></span><br><span class="line">			DT_UDPIPE = <span class="keyword">new</span> IPEndPoint(IPAddress.Parse(DT_UDPIP), Int32.Parse(DT_UDPPORT));</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">catch</span> (Exception ex)</span><br><span class="line">		&#123;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">try</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//初始化本地UDP服务</span></span><br><span class="line">			UdpServer = <span class="keyword">new</span> Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);</span><br><span class="line">			UdpServer.Bind(ServerIPE);</span><br><span class="line">			</span><br><span class="line">			Send_Sock = <span class="keyword">new</span> Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);</span><br><span class="line">			Send_Sock.Bind(ClientIPE);</span><br><span class="line">			<span class="comment">//LogHelper.WriteLog(LogFile.Trace, "IP: " + ClientIP + " Port: " + ClientIP + "  UDP初始化成功");</span></span><br><span class="line">			<span class="comment">//启动接收监听线程</span></span><br><span class="line">			t_UdpRec = <span class="keyword">new</span> Thread(ReceiveMsg);</span><br><span class="line">			t_UdpRec.Start();</span><br><span class="line">			<span class="comment">//LogHelper.WriteLog(LogFile.Trace, "IP: " + ServerIP + " Port: " + ServerPORT + "  UDP服务端启动成功");</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">catch</span> (Exception ex)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//LogHelper.WriteLog(LogFile.Error, "IP: " + ServerIP + " Port: " + ServerPORT + " 服务端启动失败" + ex.ToString());</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//收数据向ServerIPE发来的数据（—服务端）</span></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ReceiveMsg</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>	&#123;</span><br><span class="line">		<span class="keyword">while</span> (isUdpRecv)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">try</span></span><br><span class="line">			&#123;</span><br><span class="line">				EndPoint point = <span class="keyword">new</span> IPEndPoint(IPAddress.Any, <span class="number">0</span>);<span class="comment">//暂存发送方的IP和Port</span></span><br><span class="line">				<span class="keyword">byte</span>[] RecvBuf = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1027</span>];</span><br><span class="line"></span><br><span class="line">				<span class="comment">//接收数据（阻塞）</span></span><br><span class="line">				<span class="keyword">int</span> RecvBufLength = UdpServer.ReceiveFrom(RecvBuf, <span class="keyword">ref</span> point);</span><br><span class="line">				<span class="comment">//接受到的数据</span></span><br><span class="line">				<span class="keyword">string</span> RecvMsg = Encoding.UTF8.GetString(RecvBuf, <span class="number">0</span>, RecvBufLength);</span><br><span class="line">				Console.WriteLine(<span class="string">"从 "</span> + point.ToString() + <span class="string">" 收到数据： "</span> + RecvMsg);</span><br><span class="line"></span><br><span class="line">				<span class="comment">//todo: UDP数据处理(在此处处理收到的数据)</span></span><br><span class="line"></span><br><span class="line">				</span><br><span class="line"></span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">catch</span> (Exception ex)</span><br><span class="line">			&#123;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">#<span class="meta-keyword">endregion</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//CPP数据流转换，与CPP顺序严格对应</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">TestCPPBeanTrans</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">byte</span> testbyte;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">int</span> testint;</span><br><span class="line">	<span class="comment">//移动数组长度为6</span></span><br><span class="line">	<span class="keyword">public</span> TestCPPBeanTransIN[] testBeanList;</span><br><span class="line">	<span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> 通过数据首地址指针获取数据</span></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="ptr"&gt;</span>首地址指针<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span>结构体对象<span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">unsafe</span> TestCPPBeanTrans <span class="title">ReadFromPtr</span>(<span class="params"><span class="keyword">void</span>* ptr</span>)</span></span><br><span class="line"><span class="function"></span>	&#123;</span><br><span class="line">		<span class="keyword">var</span> res = <span class="keyword">new</span> TestCPPBeanTrans();</span><br><span class="line">		res.Read(ptr);</span><br><span class="line">		<span class="keyword">return</span> res;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> 逐个读取数据</span></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="ptr"&gt;</span>首地址指针<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span>整个对象在数据流中偏移的长度<span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">unsafe</span> <span class="keyword">int</span> <span class="title">Read</span>(<span class="params"><span class="keyword">void</span>* ptr</span>)</span></span><br><span class="line"><span class="function"></span>	&#123;</span><br><span class="line">		<span class="keyword">byte</span>* p = (<span class="keyword">byte</span>*)ptr;</span><br><span class="line"></span><br><span class="line">		testbyte = *(<span class="keyword">byte</span>*)p;p += <span class="keyword">sizeof</span>(<span class="keyword">byte</span>);</span><br><span class="line">		testint = *(<span class="keyword">int</span>*)p;p += <span class="keyword">sizeof</span>(<span class="keyword">int</span>);</span><br><span class="line">		testBeanList = <span class="keyword">new</span> TestCPPBeanTransIN[<span class="number">6</span>];</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">6</span>; i++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">var</span> testCPPBeanTransIN = <span class="keyword">new</span> TestCPPBeanTransIN();</span><br><span class="line">			<span class="keyword">int</span> size=testCPPBeanTransIN.Read(p);</span><br><span class="line">			testBeanList[i] = testCPPBeanTransIN;</span><br><span class="line">			p += size;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> (<span class="keyword">int</span>)(p - (<span class="keyword">byte</span>*)ptr);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//多级包测试（单级）</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">TestCPPBeanTransIN</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">byte</span> testByte;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">int</span> testint;</span><br><span class="line"></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> 通过数据首地址指针获取数据</span></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="ptr"&gt;</span>首地址指针<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span>结构体对象<span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">unsafe</span> TestCPPBeanTransIN <span class="title">ReadFromPtr</span>(<span class="params"><span class="keyword">void</span>* ptr</span>)</span></span><br><span class="line"><span class="function"></span>	&#123;</span><br><span class="line">		<span class="keyword">var</span> res = <span class="keyword">new</span> TestCPPBeanTransIN();</span><br><span class="line">		res.Read(ptr);</span><br><span class="line">		<span class="keyword">return</span> res;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> 逐个读取数据</span></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="ptr"&gt;</span>首地址指针<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">	<span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span>整个对象在数据流中偏移的长度<span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">unsafe</span> <span class="keyword">int</span> <span class="title">Read</span>(<span class="params"><span class="keyword">void</span>* ptr</span>)</span></span><br><span class="line"><span class="function"></span>	&#123;</span><br><span class="line">		<span class="keyword">byte</span>* p = (<span class="keyword">byte</span>*)ptr;</span><br><span class="line"></span><br><span class="line">		testByte = *(<span class="keyword">byte</span>*)p;p += <span class="keyword">sizeof</span>(<span class="keyword">byte</span>);</span><br><span class="line">		testint = *(<span class="keyword">int</span>*)p;p += <span class="keyword">sizeof</span>(<span class="keyword">int</span>);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> (<span class="keyword">int</span>)(p - (<span class="keyword">byte</span>*)ptr);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/JoeyMar.git.io/2019/07/10/CSharp-RSATools/" rel="next" title="CSharp_采用RSA非对称加密算法进行加密与解密（Helper类）">
+                <i class="fa fa-chevron-left"></i> CSharp_采用RSA非对称加密算法进行加密与解密（Helper类）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/JoeyMar.git.io/images/LufeiHeader.jpeg" alt="老马">
+            
+              <p class="site-author-name" itemprop="name">老马</p>
+              <div class="site-description motion-element" itemprop="description">一个人到中年的 IT Farmer</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/JoeyMar.git.io/archives/">
+                
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/JoeyMar.git.io/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/LancerMar" title="GitHub &rarr; https://github.com/LancerMar" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:602545140@qq.com" title="E-Mail &rarr; mailto:602545140@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#需引用的库"><span class="nav-number">1.</span> <span class="nav-text">需引用的库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单例控制"><span class="nav-number">2.</span> <span class="nav-text">单例控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参数初始化说明"><span class="nav-number">3.</span> <span class="nav-text">参数初始化说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据接收端"><span class="nav-number">4.</span> <span class="nav-text">数据接收端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据发送端"><span class="nav-number">5.</span> <span class="nav-text">数据发送端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#与C-的数据交互处理（内存对应）"><span class="nav-number">6.</span> <span class="nav-text">与C++的数据交互处理（内存对应）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#源码"><span class="nav-number">7.</span> <span class="nav-text">源码</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-snowflake-o"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">老马</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      网站总访客数 <span class="busuanzi-value" id="busuanzi_value_site_uv"></span> 人次. |
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      总访问量 <span class="busuanzi-value" id="busuanzi_value_site_pv"></span> 次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/JoeyMar.git.io/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/JoeyMar.git.io/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/JoeyMar.git.io/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/JoeyMar.git.io/js/utils.js?v=7.1.0"></script>
+
+  <script src="/JoeyMar.git.io/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/JoeyMar.git.io/js/affix.js?v=7.1.0"></script>
+
+  <script src="/JoeyMar.git.io/js/schemes/pisces.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/JoeyMar.git.io/js/scrollspy.js?v=7.1.0"></script>
+<script src="/JoeyMar.git.io/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/JoeyMar.git.io/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+</body>
+</html>
