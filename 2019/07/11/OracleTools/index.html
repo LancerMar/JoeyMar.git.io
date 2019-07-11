@@ -103,10 +103,12 @@
 <meta property="og:site_name" content="JoeyMar`s Home">
 <meta property="og:description" content="Oracle添加序列">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-07-11T08:24:25.579Z">
+<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/07/11/OracleTools/onepiceSign.jpg">
+<meta property="og:updated_time" content="2019-07-11T08:55:31.226Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一些常用的Oracle命令">
 <meta name="twitter:description" content="Oracle添加序列">
+<meta name="twitter:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/07/11/OracleTools/onepiceSign.jpg">
 
 
 
@@ -366,7 +368,7 @@
                 
               
 
-              <time title="创建时间：2019-07-11 15:25:17 / 修改时间：16:24:25" itemprop="dateCreated datePublished" datetime="2019-07-11T15:25:17+08:00">2019-07-11</time>
+              <time title="创建时间：2019-07-11 15:25:17 / 修改时间：16:55:31" itemprop="dateCreated datePublished" datetime="2019-07-11T15:25:17+08:00">2019-07-11</time>
             
 
             
@@ -437,6 +439,7 @@
 <h3 id="Oracle建立触发器"><a href="#Oracle建立触发器" class="headerlink" title="Oracle建立触发器"></a>Oracle建立触发器</h3><p>建立触发器将，表与序列相关联<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">or</span> <span class="keyword">replace</span> <span class="keyword">trigger</span> <span class="string">"dept_trig"</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">before</span> <span class="keyword">insert</span> <span class="keyword">on</span> (表名)	</span><br><span class="line">	<span class="keyword">referencing</span> <span class="keyword">old</span> <span class="keyword">as</span> <span class="keyword">old</span> <span class="keyword">new</span> <span class="keyword">as</span> <span class="keyword">new</span> <span class="keyword">for</span> <span class="keyword">each</span> <span class="keyword">row</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">declare</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">select</span> (序列名).nextval <span class="keyword">into</span> :new.dept_sort <span class="keyword">from</span> dual;</span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span> dept_trig;</span><br></pre></td></tr></table></figure></p>
 <h3 id="Oracle自增列添加"><a href="#Oracle自增列添加" class="headerlink" title="Oracle自增列添加"></a>Oracle自增列添加</h3><p>Oracle数据库不提供直接添加自增列的功能，需要手动生成一个自增的序列，然后绑定触发器，最后再将触发器绑定到需要自增的列上面去。<br>建立自增序列：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">sequence</span> seq_t_test</span><br><span class="line"><span class="keyword">MINVALUE</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">nomaxvalue</span></span><br><span class="line"><span class="keyword">start</span> <span class="keyword">with</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">increment</span> <span class="keyword">by</span> <span class="number">1</span></span><br><span class="line">nocache;</span><br></pre></td></tr></table></figure></p>
 <p>绑定触发器<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">or</span> <span class="keyword">replace</span> <span class="keyword">trigger</span> <span class="string">"dept_trig"</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">before</span> <span class="keyword">insert</span> <span class="keyword">on</span> testTable	</span><br><span class="line">	<span class="keyword">referencing</span> <span class="keyword">old</span> <span class="keyword">as</span> <span class="keyword">old</span> <span class="keyword">new</span> <span class="keyword">as</span> <span class="keyword">new</span> <span class="keyword">for</span> <span class="keyword">each</span> <span class="keyword">row</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">declare</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">select</span> seq_t_test.nextval <span class="keyword">into</span> :new.dept_sort <span class="keyword">from</span> dual;</span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span> dept_trig;</span><br></pre></td></tr></table></figure></p>
+<p>//————————————————————————–致我们终将奔向的远方————————————————-<br><img src="/JoeyMar.git.io/2019/07/11/OracleTools/onepiceSign.jpg" alt></p>
 
       
     </div>
