@@ -96,21 +96,21 @@
 
 
 
-  <meta name="description" content="引用的头文件在调用GetModuleFileNameA函数获取进程路径时必须要调用引入&amp;lt;Windows.h&amp;gt;">
+  <meta name="description" content="ListList由双向链表实现，内存空间不连续，只能通过指针访问数据；List的存取效率极低，时间复杂度为o(n);由于链表的特点，能够高效的进行数据的插入和删除；长度无限制，无需重新申请内存。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C++中读写INI配置文件">
-<meta property="og:url" content="https://lancermar.github.io/2019/07/10/CPPINIFileOp/index.html">
+<meta property="og:title" content="C++中List与Vector的区别">
+<meta property="og:url" content="https://lancermar.github.io/2019/07/11/CPPListAndVector/index.html">
 <meta property="og:site_name" content="JoeyMar`s Home">
-<meta property="og:description" content="引用的头文件在调用GetModuleFileNameA函数获取进程路径时必须要调用引入&amp;lt;Windows.h&amp;gt;">
+<meta property="og:description" content="ListList由双向链表实现，内存空间不连续，只能通过指针访问数据；List的存取效率极低，时间复杂度为o(n);由于链表的特点，能够高效的进行数据的插入和删除；长度无限制，无需重新申请内存。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/07/10/CPPINIFileOp/testINIRead.JPG">
-<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/07/10/CPPINIFileOp/testINIWrite.JPG">
-<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/07/10/CPPINIFileOp/onepiceSign.jpg">
-<meta property="og:updated_time" content="2019-07-10T06:43:06.513Z">
+<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/07/11/CPPListAndVector/ListTest.JPG">
+<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/07/11/CPPListAndVector/VectorList.JPG">
+<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/07/11/CPPListAndVector/onepiceSign.jpg">
+<meta property="og:updated_time" content="2019-07-11T03:48:53.461Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C++中读写INI配置文件">
-<meta name="twitter:description" content="引用的头文件在调用GetModuleFileNameA函数获取进程路径时必须要调用引入&amp;lt;Windows.h&amp;gt;">
-<meta name="twitter:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/07/10/CPPINIFileOp/testINIRead.JPG">
+<meta name="twitter:title" content="C++中List与Vector的区别">
+<meta name="twitter:description" content="ListList由双向链表实现，内存空间不连续，只能通过指针访问数据；List的存取效率极低，时间复杂度为o(n);由于链表的特点，能够高效的进行数据的插入和删除；长度无限制，无需重新申请内存。">
+<meta name="twitter:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/07/11/CPPListAndVector/ListTest.JPG">
 
 
 
@@ -118,7 +118,7 @@
 
   
   
-  <link rel="canonical" href="https://lancermar.github.io/2019/07/10/CPPINIFileOp/">
+  <link rel="canonical" href="https://lancermar.github.io/2019/07/11/CPPListAndVector/">
 
 
 
@@ -128,7 +128,7 @@
   };
 </script>
 
-  <title>C++中读写INI配置文件 | JoeyMar`s Home</title>
+  <title>C++中List与Vector的区别 | JoeyMar`s Home</title>
   
 
 
@@ -327,7 +327,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://lancermar.github.io/JoeyMar.git.io/2019/07/10/CPPINIFileOp/">
+    <link itemprop="mainEntityOfPage" href="https://lancermar.github.io/JoeyMar.git.io/2019/07/11/CPPListAndVector/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="老马">
@@ -344,7 +344,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">C++中读写INI配置文件
+          <h1 class="post-title" itemprop="name headline">C++中List与Vector的区别
 
               
             
@@ -370,7 +370,7 @@
                 
               
 
-              <time title="创建时间：2019-07-10 11:43:35 / 修改时间：14:43:06" itemprop="dateCreated datePublished" datetime="2019-07-10T11:43:35+08:00">2019-07-10</time>
+              <time title="创建时间：2019-07-11 10:41:26 / 修改时间：11:48:53" itemprop="dateCreated datePublished" datetime="2019-07-11T10:41:26+08:00">2019-07-11</time>
             
 
             
@@ -434,12 +434,15 @@
       
 
       
-        <h3 id="引用的头文件"><a href="#引用的头文件" class="headerlink" title="引用的头文件"></a>引用的头文件</h3><p>在调用GetModuleFileNameA函数获取进程路径时必须要调用引入&lt;Windows.h&gt;<br><a id="more"></a><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="comment">//定义路径的最大长度</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX_PATH          260</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br></pre></td></tr></table></figure></p>
-<h3 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h3><p>获取config.ini配置文件路径,（这里面有个小坑，GetPrivateProfileString，与WritePrivateProfileString函数对应的参数中路径的格式为LPCTSTR，需要转一下）<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//进程绝对路径</span></span><br><span class="line"><span class="keyword">char</span> excuteFileDir[MAX_PATH];</span><br><span class="line"><span class="comment">//配置文件绝对路径</span></span><br><span class="line"><span class="keyword">char</span> SaveResult[MAX_PATH];</span><br><span class="line"></span><br><span class="line"><span class="comment">//获得当前进程的绝对路径</span></span><br><span class="line"><span class="keyword">int</span> n = GetModuleFileNameA(<span class="number">0</span>, excuteFileDir, MAX_PATH);</span><br><span class="line"></span><br><span class="line"><span class="comment">//截断，将最后一个"\\"后的字符置为0</span></span><br><span class="line"><span class="comment">//strrchr从字符串末尾开始搜索第一个出现关键字符串的位置</span></span><br><span class="line">excuteFileDir[<span class="built_in">strrchr</span>(excuteFileDir, <span class="string">'\\'</span>) - excuteFileDir + <span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line"><span class="built_in">strcpy</span>(SaveResult, excuteFileDir);</span><br><span class="line"><span class="built_in">strcat</span>(SaveResult, <span class="string">"Config.ini"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//转换路径对象类型</span></span><br><span class="line">LPCTSTR lpPath = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">32</span>];</span><br><span class="line">lpPath = SaveResult;</span><br></pre></td></tr></table></figure></p>
-<p>获取配置文件中对应字段的值<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">TCHAR result[<span class="number">32</span>];</span><br><span class="line">GetPrivateProfileString(LPCTSTR(<span class="string">"TestTitle"</span>), LPCTSTR(<span class="string">"testConfig1"</span>), LPCTSTR(<span class="string">""</span>), result, <span class="number">32</span>, lpPath);</span><br></pre></td></tr></table></figure></p>
-<p><img src="/JoeyMar.git.io/2019/07/10/CPPINIFileOp/testINIRead.JPG" alt="INI文件读测试"><br>将指定值写入配置文件的指定位置<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WritePrivateProfileString(LPCTSTR(<span class="string">"TestTitle"</span>), LPCTSTR(<span class="string">"testConfig1"</span>), LPCTSTR(<span class="string">"testWrite"</span>), lpPath);</span><br></pre></td></tr></table></figure></p>
-<p><img src="/JoeyMar.git.io/2019/07/10/CPPINIFileOp/testINIWrite.JPG" alt="INI文件写测试"></p>
-<p>//————————————————————————–致我们终将奔向的远方————————————————-<br><img src="/JoeyMar.git.io/2019/07/10/CPPINIFileOp/onepiceSign.jpg" alt></p>
+        <h3 id="List"><a href="#List" class="headerlink" title="List"></a>List</h3><p>List由双向链表实现，内存空间不连续，只能通过指针访问数据；List的存取效率极低，时间复杂度为o(n);<br>由于链表的特点，能够高效的进行数据的插入和删除；长度无限制，无需重新申请内存。<br><a id="more"></a></p>
+<h3 id="List的一些简单实现"><a href="#List的一些简单实现" class="headerlink" title="List的一些简单实现"></a>List的一些简单实现</h3><p>引用<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;list&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br></pre></td></tr></table></figure></p>
+<p>打印函数<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintIt</span><span class="params">(<span class="built_in">string</span>&amp; StringToPoint)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; StringToPoint &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>一些简单的List相关的应用实现（生成链表，遍历链表与获取链表指定位置的值）<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">list</span>&lt;<span class="built_in">string</span>&gt; test;</span><br><span class="line">	<span class="comment">//迭代器</span></span><br><span class="line">	<span class="built_in">list</span>&lt;<span class="built_in">string</span>&gt;::iterator testIter;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//加入数据</span></span><br><span class="line">	test.push_back(<span class="string">"aaa"</span>);</span><br><span class="line">	test.push_front(<span class="string">"kkk"</span>);</span><br><span class="line">	test.push_front(<span class="string">"lol"</span>);</span><br><span class="line">	test.push_back(<span class="string">"end"</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//------------------从头遍历链表并打印----------------------------</span></span><br><span class="line">	<span class="keyword">for</span> (testIter = test.begin(); testIter != test.end(); ++testIter)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; *testIter &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"foreach获取："</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	for_each(test.begin(), test.end(), PrintIt);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//获取list中指定位置的值</span></span><br><span class="line">	testIter = test.begin();</span><br><span class="line">	<span class="comment">//需要访问元素的位置</span></span><br><span class="line">	<span class="keyword">int</span> n = <span class="number">2</span>;</span><br><span class="line">	<span class="comment">//将迭代器移动到指定位置</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		++testIter;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//从迭代器中取得对应的值</span></span><br><span class="line">	<span class="built_in">string</span> str_target = *testIter;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt;<span class="string">"List["</span>&lt;&lt;n&lt;&lt;<span class="string">"]= "</span>&lt;&lt; str_target &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	system(<span class="string">"PAUSE"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><img src="/JoeyMar.git.io/2019/07/11/CPPListAndVector/ListTest.JPG" alt></p>
+<h3 id="Vector"><a href="#Vector" class="headerlink" title="Vector"></a>Vector</h3><p>Vector类似于数组，需要你初始化一段连续的内存空间；因此可以高效的进行随机存取数据，时间复杂度为o(1);同时也是因为内存空间是连续的，当进行数据的插入和删除操作时，需要进行拷贝操作，时间复杂度为o(n).<br>当申请的内存空间不够时，需要重新申请一块内存进行内存拷贝操作。</p>
+<h3 id="Vector的一些简单实现"><a href="#Vector的一些简单实现" class="headerlink" title="Vector的一些简单实现"></a>Vector的一些简单实现</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//定长初始化（Vector为连续内存，必须定长初始化）</span></span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; Vtest(<span class="number">8</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	Vtest[<span class="number">2</span>] = <span class="number">12</span>;</span><br><span class="line">	Vtest[<span class="number">4</span>] = <span class="number">66</span>;</span><br><span class="line">	Vtest[<span class="number">1</span>] = <span class="number">88</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//遍历的方式读取</span></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"遍历的方式读取: "</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; Vtest.size(); i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; Vtest[i] &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//采用迭代器读取数据</span></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"采用迭代器读取数据: "</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator vcterIt;</span><br><span class="line">	<span class="keyword">for</span> (vcterIt = Vtest.begin(); vcterIt != Vtest.end(); vcterIt++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; *vcterIt &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	system(<span class="string">"PAUSE"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：<br><img src="/JoeyMar.git.io/2019/07/11/CPPListAndVector/VectorList.JPG" alt></p>
+<p>//————————————————————————–致我们终将奔向的远方————————————————-<br><img src="/JoeyMar.git.io/2019/07/11/CPPListAndVector/onepiceSign.jpg" alt></p>
 
       
     </div>
@@ -470,8 +473,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/JoeyMar.git.io/2019/04/30/CSharp-Log/" rel="next" title="一个简单的CSharp日志工具">
-                <i class="fa fa-chevron-left"></i> 一个简单的CSharp日志工具
+              <a href="/JoeyMar.git.io/2019/07/10/Charp-UDPTools/" rel="next" title="CSharp实现简单的与C++的UDP通信，采用指针的形式读取传递的结构体">
+                <i class="fa fa-chevron-left"></i> CSharp实现简单的与C++的UDP通信，采用指针的形式读取传递的结构体
               </a>
             
           </div>
@@ -479,10 +482,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/JoeyMar.git.io/2019/07/10/CSharp-RSATools/" rel="prev" title="CSharp_采用RSA非对称加密算法进行加密与解密（Helper类）">
-                CSharp_采用RSA非对称加密算法进行加密与解密（Helper类） <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -642,7 +641,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#引用的头文件"><span class="nav-number">1.</span> <span class="nav-text">引用的头文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#源码"><span class="nav-number">2.</span> <span class="nav-text">源码</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#List"><span class="nav-number">1.</span> <span class="nav-text">List</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#List的一些简单实现"><span class="nav-number">2.</span> <span class="nav-text">List的一些简单实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vector"><span class="nav-number">3.</span> <span class="nav-text">Vector</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vector的一些简单实现"><span class="nav-number">4.</span> <span class="nav-text">Vector的一些简单实现</span></a></li></ol></div>
             
 
           </div>
