@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/JoeyMar.git.io/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/JoeyMar.git.io/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/JoeyMar.git.io/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/JoeyMar.git.io/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/JoeyMar.git.io/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/JoeyMar.git.io/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/JoeyMar.git.io/',
+    scheme: 'Gemini',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="最近开始系统性的学习并整理一下一下C++的并发编程，并发的思想计算机语言的学习与使用中占有很重要的位置，而且基本上是一门语言学会并掌握了过后，当接触其他语言时可以很轻松的学会并掌握，因为最近项目更多的使用到C++，所以这里用C++总结一波最近的学习经验">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++并发编程学习随笔（一）">
+<meta property="og:url" content="https://lancermar.github.io/2019/07/16/CPPConcurrent01/index.html">
+<meta property="og:site_name" content="JoeyMar`s Home">
+<meta property="og:description" content="最近开始系统性的学习并整理一下一下C++的并发编程，并发的思想计算机语言的学习与使用中占有很重要的位置，而且基本上是一门语言学会并掌握了过后，当接触其他语言时可以很轻松的学会并掌握，因为最近项目更多的使用到C++，所以这里用C++总结一波最近的学习经验">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/07/16/CPPConcurrent01/ThreadHello.JPG">
+<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/07/16/CPPConcurrent01/ThreadJoin.JPG">
+<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/07/16/CPPConcurrent01/ThreadDetach.JPG">
+<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/07/16/CPPConcurrent01/ThreadDetachSleep1.JPG">
+<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/07/16/CPPConcurrent01/ThreadJoin.JPG">
+<meta property="og:updated_time" content="2019-07-16T08:15:05.741Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++并发编程学习随笔（一）">
+<meta name="twitter:description" content="最近开始系统性的学习并整理一下一下C++的并发编程，并发的思想计算机语言的学习与使用中占有很重要的位置，而且基本上是一门语言学会并掌握了过后，当接触其他语言时可以很轻松的学会并掌握，因为最近项目更多的使用到C++，所以这里用C++总结一波最近的学习经验">
+<meta name="twitter:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/07/16/CPPConcurrent01/ThreadHello.JPG">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://lancermar.github.io/2019/07/16/CPPConcurrent01/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>C++并发编程学习随笔（一） | JoeyMar`s Home</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/JoeyMar.git.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JoeyMar`s Home</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/JoeyMar.git.io/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/JoeyMar.git.io/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/JoeyMar.git.io/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/JoeyMar.git.io/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lancermar.github.io/JoeyMar.git.io/2019/07/16/CPPConcurrent01/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="老马">
+      <meta itemprop="description" content="一个人到中年的 IT Farmer">
+      <meta itemprop="image" content="/JoeyMar.git.io/images/LufeiHeader.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JoeyMar`s Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">C++并发编程学习随笔（一）
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-07-16 14:30:16 / 修改时间：16:15:05" itemprop="dateCreated datePublished" datetime="2019-07-16T14:30:16+08:00">2019-07-16</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/JoeyMar.git.io/categories/C-相关/" itemprop="url" rel="index"><span itemprop="name">C++相关</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近开始系统性的学习并整理一下一下C++的并发编程，并发的思想计算机语言的学习与使用中占有很重要的位置，而且基本上是一门语言学会并掌握了过后，当接触其他语言时可以很轻松的学会并掌握，因为最近项目更多的使用到C++，所以这里用C++总结一波最近的学习经验<br><a id="more"></a></p>
+<h3 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h3><p>计算机领域的并发指的是在单个系统里同时执行多个独立的任务，而非顺序地进行一些活动。</p>
+<h3 id="多线程并发"><a href="#多线程并发" class="headerlink" title="多线程并发"></a>多线程并发</h3><p>并发的另一个途径是在单个进程中运行多个线程。线程类似于轻量级的进程，每个线程相互独立运行，且线程可以在不同的指令序列中运行。<br>缺点：缺少线程间的数据保护，如果数据要被多个线程访问，我们必须确保每个线程所访问的的数据是一致的，因此需要对线程通信做大量的工作。<br>优点：进程中所有线程共享地址空间，并且缺少数据保护，使得操作系统的记录工作量减小，所以使用多线程的相关开销远远小于使用多个进程；单一进程中的多线程间的通信开销较小。</p>
+<h3 id="利用并发提高性能的方式"><a href="#利用并发提高性能的方式" class="headerlink" title="利用并发提高性能的方式"></a>利用并发提高性能的方式</h3><p>任务并行（易并行）：将一个单个任务分成几部分，并且各自并行运行，从而降低总运行时间。此种方法具有良好的可扩展性，当可用硬件线程的数量增加时，算法的并行性也随之增加。当可用硬件线程的数量增加时，算法的并行性也会随之增加。如果算法中有不易并行的部分，你可以把算法划分成固定（不可扩展）数量的并行任务。<br>数据并行（可并行）：每个线程在不同的数据部分上执行相同的操作。处理一个数据块仍然需要同样的时间，但在相同的时间内处理了更多的数据。这种方法所带来的吞吐量提升，可以让某些新功能成为可能。</p>
+<h3 id="C-多线程开发常用的头文件"><a href="#C-多线程开发常用的头文件" class="headerlink" title="C++多线程开发常用的头文件"></a>C++多线程开发常用的头文件</h3><p><atomic>：该头文主要声明了两个类, std::atomic 和 std::atomic_flag，另外还声明了一套 C 风格的原子类型和与 C 兼容的原子操作的函数。</atomic></p>
+<p><thread>：该头文件主要声明了 std::thread 类，另外 std::this_thread 命名空间也在该头文件中。</thread></p>
+<p><mutex>：该头文件主要声明了与互斥量(mutex)相关的类，包括 std::mutex 系列类，std::lock_guard, std::unique_lock, 以及其他的类型和函数。</mutex></p>
+<p>&lt;condition_variable&gt;：该头文件主要声明了与条件变量相关的类，包括 std::condition_variable 和 std::condition_variable_any。</p>
+<p><future>：该头文件主要声明了 std::promise, std::package_task 两个 Provider 类，以及 std::future 和 std::shared_future 两个 Future 类，另外还有一些与之相关的类型和函数，std::async() 函数就声明在此头文件中。</future></p>
+<h3 id="一个简单的例子"><a href="#一个简单的例子" class="headerlink" title="一个简单的例子"></a>一个简单的例子</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pch.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;thread&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="comment">//线程任务执行函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Thread_Task</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"Hello Thread"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//主函数</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="function">thread <span class="title">t_firstTest</span><span class="params">(Thread_Task)</span></span>;</span><br><span class="line">	t_firstTest.join();</span><br><span class="line"></span><br><span class="line">	system(<span class="string">"PAUSE"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行结果：<br><img src="/JoeyMar.git.io/2019/07/16/CPPConcurrent01/ThreadHello.JPG" alt></p>
+<h3 id="join-和detach"><a href="#join-和detach" class="headerlink" title="join()和detach()"></a>join()和detach()</h3><p>因为之前学的C#和java，刚刚接触C++的时候，又没有run，又没有start直接被搞懵逼了，哈哈哈。<br>后面有一次做项目又踩了一下坑，这里简单说一下这两个函数的区别；<br>Join()：函数是一个等待线程完成函数，主线程需要等待子线程运行结束了才可以结束;好理解一点的来说就是，join启动的线程，原始线程需要在该线程执行结束后才将其销毁；<br>detach():称为分离线程函数，使用detach()函数会让线程在后台运行，即说明主线程不会等待子线程运行结束才结束<br>这里通常将分离线程称为守护线程（daemon threads），UNIX中守护线程是指，没有任何显式的用户接口，并在后台运行的线程。这种线程的特点就是长时间运行；线程的生命周期可能会从某一个应用起始到结束，可能会在后台监视文件系统，还有可能对缓存进行清理，亦或对数据结构进行优化。</p>
+<h3 id="示例说明"><a href="#示例说明" class="headerlink" title="示例说明"></a>示例说明</h3><p>join：主线程Main等待子线程执行完后才销毁子线程(子线程完全执行)；<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pch.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;thread&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="comment">//线程任务执行函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Thread_Task</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"thread Excute "</span> &lt;&lt; i &lt;&lt; <span class="string">"times"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//主函数</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="function">thread <span class="title">t_jointest</span><span class="params">(Thread_Task)</span></span>;</span><br><span class="line">	</span><br><span class="line">	t_jointest.join();</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//system("PAUSE");</span></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>执行结果：<br><img src="/JoeyMar.git.io/2019/07/16/CPPConcurrent01/ThreadJoin.JPG" alt><br>detach：主线程与子线程分离，主线程结束后不等待子线程执行，结束后直接销毁子线程，子线程停止执行：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pch.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;thread&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="comment">//线程任务执行函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Thread_Task</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"thread Excute "</span> &lt;&lt; i &lt;&lt; <span class="string">"times"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//主函数</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="function">thread <span class="title">t_jointest</span><span class="params">(Thread_Task)</span></span>;</span><br><span class="line">	t_jointest.detach();</span><br><span class="line">	<span class="comment">//_sleep(1);</span></span><br><span class="line">	<span class="comment">//system("PAUSE");</span></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>执行结果：<br><img src="/JoeyMar.git.io/2019/07/16/CPPConcurrent01/ThreadDetach.JPG" alt><br>如上图，主线程执行完成后，将子线程直接销毁，因为执行速度过快，导致子线程并没有开始执行打印就已经被销毁了；<br>加上_sleep(1);后可以更清晰的观察到这个过程。执行结果如下：<br><img src="/JoeyMar.git.io/2019/07/16/CPPConcurrent01/ThreadDetachSleep1.JPG" alt><img src="/JoeyMar.git.io/2019/07/16/CPPConcurrent01/ThreadJoin.JPG" alt><br>如上图所示，调用detach方法，再执行后sleep 1毫秒后，在1毫秒期间，子线程打印到7则随着主线程的销毁，销毁子线程，停止打印后面的数字。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/JoeyMar.git.io/2019/07/12/CSharpINIFile/" rel="next" title="C#读写INI配置文件（简单的配置文件Helper）">
+                <i class="fa fa-chevron-left"></i> C#读写INI配置文件（简单的配置文件Helper）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/JoeyMar.git.io/images/LufeiHeader.jpeg" alt="老马">
+            
+              <p class="site-author-name" itemprop="name">老马</p>
+              <div class="site-description motion-element" itemprop="description">一个人到中年的 IT Farmer</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/JoeyMar.git.io/archives/">
+                
+                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/JoeyMar.git.io/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/LancerMar" title="GitHub &rarr; https://github.com/LancerMar" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:602545140@qq.com" title="E-Mail &rarr; mailto:602545140@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#并发"><span class="nav-number">1.</span> <span class="nav-text">并发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多线程并发"><span class="nav-number">2.</span> <span class="nav-text">多线程并发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#利用并发提高性能的方式"><span class="nav-number">3.</span> <span class="nav-text">利用并发提高性能的方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-多线程开发常用的头文件"><span class="nav-number">4.</span> <span class="nav-text">C++多线程开发常用的头文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一个简单的例子"><span class="nav-number">5.</span> <span class="nav-text">一个简单的例子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#join-和detach"><span class="nav-number">6.</span> <span class="nav-text">join()和detach()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#示例说明"><span class="nav-number">7.</span> <span class="nav-text">示例说明</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-snowflake-o"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">老马</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      网站总访客数 <span class="busuanzi-value" id="busuanzi_value_site_uv"></span> 人次. |
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      总访问量 <span class="busuanzi-value" id="busuanzi_value_site_pv"></span> 次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/JoeyMar.git.io/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/JoeyMar.git.io/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/JoeyMar.git.io/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/JoeyMar.git.io/js/utils.js?v=7.1.0"></script>
+
+  <script src="/JoeyMar.git.io/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/JoeyMar.git.io/js/affix.js?v=7.1.0"></script>
+
+  <script src="/JoeyMar.git.io/js/schemes/pisces.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/JoeyMar.git.io/js/scrollspy.js?v=7.1.0"></script>
+<script src="/JoeyMar.git.io/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/JoeyMar.git.io/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+</body>
+</html>
