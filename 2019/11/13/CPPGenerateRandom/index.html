@@ -96,21 +96,21 @@
 
 
 
-  <meta name="description" content="引用的头文件在调用GetModuleFileNameA函数获取进程路径时必须要调用引入&amp;lt;Windows.h&amp;gt;">
+  <meta name="description" content="C++中一些关于生成随机数的方法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C++中读写INI配置文件">
-<meta property="og:url" content="https://lancermar.github.io/2019/07/10/CPPINIFileOp/index.html">
+<meta property="og:title" content="C++随机数生成">
+<meta property="og:url" content="https://lancermar.github.io/2019/11/13/CPPGenerateRandom/index.html">
 <meta property="og:site_name" content="JoeyMar`s Home">
-<meta property="og:description" content="引用的头文件在调用GetModuleFileNameA函数获取进程路径时必须要调用引入&amp;lt;Windows.h&amp;gt;">
+<meta property="og:description" content="C++中一些关于生成随机数的方法">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/07/10/CPPINIFileOp/testINIRead.JPG">
-<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/07/10/CPPINIFileOp/testINIWrite.JPG">
-<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/07/10/CPPINIFileOp/onepiceSign.jpg">
-<meta property="og:updated_time" content="2019-07-10T06:43:06.513Z">
+<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/11/13/CPPGenerateRandom/CPPRand.JPG">
+<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/11/13/CPPGenerateRandom/Srand01.JPG">
+<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/11/13/CPPGenerateRandom/SRand02.JPG">
+<meta property="og:updated_time" content="2019-11-13T07:40:34.065Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C++中读写INI配置文件">
-<meta name="twitter:description" content="引用的头文件在调用GetModuleFileNameA函数获取进程路径时必须要调用引入&amp;lt;Windows.h&amp;gt;">
-<meta name="twitter:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/07/10/CPPINIFileOp/testINIRead.JPG">
+<meta name="twitter:title" content="C++随机数生成">
+<meta name="twitter:description" content="C++中一些关于生成随机数的方法">
+<meta name="twitter:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/11/13/CPPGenerateRandom/CPPRand.JPG">
 
 
 
@@ -118,7 +118,7 @@
 
   
   
-  <link rel="canonical" href="https://lancermar.github.io/2019/07/10/CPPINIFileOp/">
+  <link rel="canonical" href="https://lancermar.github.io/2019/11/13/CPPGenerateRandom/">
 
 
 
@@ -128,7 +128,7 @@
   };
 </script>
 
-  <title>C++中读写INI配置文件 | JoeyMar`s Home</title>
+  <title>C++随机数生成 | JoeyMar`s Home</title>
   
 
 
@@ -327,7 +327,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://lancermar.github.io/JoeyMar.git.io/2019/07/10/CPPINIFileOp/">
+    <link itemprop="mainEntityOfPage" href="https://lancermar.github.io/JoeyMar.git.io/2019/11/13/CPPGenerateRandom/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="老马">
@@ -344,7 +344,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">C++中读写INI配置文件
+          <h1 class="post-title" itemprop="name headline">C++随机数生成
 
               
             
@@ -370,7 +370,7 @@
                 
               
 
-              <time title="创建时间：2019-07-10 11:43:35 / 修改时间：14:43:06" itemprop="dateCreated datePublished" datetime="2019-07-10T11:43:35+08:00">2019-07-10</time>
+              <time title="创建时间：2019-11-13 10:59:24 / 修改时间：15:40:34" itemprop="dateCreated datePublished" datetime="2019-11-13T10:59:24+08:00">2019-11-13</time>
             
 
             
@@ -434,12 +434,23 @@
       
 
       
-        <h3 id="引用的头文件"><a href="#引用的头文件" class="headerlink" title="引用的头文件"></a>引用的头文件</h3><p>在调用GetModuleFileNameA函数获取进程路径时必须要调用引入&lt;Windows.h&gt;<br><a id="more"></a><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="comment">//定义路径的最大长度</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX_PATH          260</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br></pre></td></tr></table></figure></p>
-<h3 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h3><p>获取config.ini配置文件路径,（这里面有个小坑，GetPrivateProfileString，与WritePrivateProfileString函数对应的参数中路径的格式为LPCTSTR，需要转一下）<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//进程绝对路径</span></span><br><span class="line"><span class="keyword">char</span> excuteFileDir[MAX_PATH];</span><br><span class="line"><span class="comment">//配置文件绝对路径</span></span><br><span class="line"><span class="keyword">char</span> SaveResult[MAX_PATH];</span><br><span class="line"></span><br><span class="line"><span class="comment">//获得当前进程的绝对路径</span></span><br><span class="line"><span class="keyword">int</span> n = GetModuleFileNameA(<span class="number">0</span>, excuteFileDir, MAX_PATH);</span><br><span class="line"></span><br><span class="line"><span class="comment">//截断，将最后一个"\\"后的字符置为0</span></span><br><span class="line"><span class="comment">//strrchr从字符串末尾开始搜索第一个出现关键字符串的位置</span></span><br><span class="line">excuteFileDir[<span class="built_in">strrchr</span>(excuteFileDir, <span class="string">'\\'</span>) - excuteFileDir + <span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line"><span class="built_in">strcpy</span>(SaveResult, excuteFileDir);</span><br><span class="line"><span class="built_in">strcat</span>(SaveResult, <span class="string">"Config.ini"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//转换路径对象类型</span></span><br><span class="line">LPCTSTR lpPath = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">32</span>];</span><br><span class="line">lpPath = SaveResult;</span><br></pre></td></tr></table></figure></p>
-<p>获取配置文件中对应字段的值<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">TCHAR result[<span class="number">32</span>];</span><br><span class="line">GetPrivateProfileString(LPCTSTR(<span class="string">"TestTitle"</span>), LPCTSTR(<span class="string">"testConfig1"</span>), LPCTSTR(<span class="string">""</span>), result, <span class="number">32</span>, lpPath);</span><br></pre></td></tr></table></figure></p>
-<p><img src="/JoeyMar.git.io/2019/07/10/CPPINIFileOp/testINIRead.JPG" alt="INI文件读测试"><br>将指定值写入配置文件的指定位置<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WritePrivateProfileString(LPCTSTR(<span class="string">"TestTitle"</span>), LPCTSTR(<span class="string">"testConfig1"</span>), LPCTSTR(<span class="string">"testWrite"</span>), lpPath);</span><br></pre></td></tr></table></figure></p>
-<p><img src="/JoeyMar.git.io/2019/07/10/CPPINIFileOp/testINIWrite.JPG" alt="INI文件写测试"></p>
-<p>//————————————————————————–致我们终将奔向的远方————————————————-<br><img src="/JoeyMar.git.io/2019/07/10/CPPINIFileOp/onepiceSign.jpg" alt></p>
+        <p>C++中一些关于生成随机数的方法<br><a id="more"></a> </p>
+<h3 id="rand"><a href="#rand" class="headerlink" title="rand()"></a>rand()</h3><p>使用线性同余法，在一定范围内生成伪随机数，直接调用rand().会直接返回一个随机数值。范围在0-RAND_MAX（2147483647）之间，RAND_MAX的宏定义在stdlib.h中。<br>使用前需引入如下的库：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br></pre></td></tr></table></figure></p>
+<p>新建一个C++控制台应用，生成10个随机数<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; rand()&lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	system(<span class="string">"PAUSE"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果如下所示，因为没有设置种子的伪随机数，所以每次生成的结果是一样的，因此这里需要使用srand()设置随机数种子。<br><img src="/JoeyMar.git.io/2019/11/13/CPPGenerateRandom/CPPRand.JPG" alt></p>
+<h3 id="srand"><a href="#srand" class="headerlink" title="srand()"></a>srand()</h3><p>以机器时间为种子，可以避免每次生成的随机数一样，使用前需要引入：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br></pre></td></tr></table></figure></p>
+<p>生成关于时间的随机数种子：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">srand((<span class="keyword">unsigned</span>)time(<span class="literal">NULL</span>));</span><br></pre></td></tr></table></figure></p>
+<p>大多数情况下需要规定一个随机数生成的范围，在这里采用如下的方法，进行生成</p>
+<ol>
+<li>获取0~1之间的浮点数，rand() / double(RAND_MAX);</li>
+<li>获取大于等于最小值，小于最大值的整数；(double)rand() / (RAND_MAX + 1) * (range_max - range_min)+ range_min;</li>
+<li>取得0~（n-1）之间的随机整数，rand（）%n  </li>
+</ol>
+<p>第二点源代码如下：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//range_min:随机数最小取值</span></span><br><span class="line"><span class="comment">//range_max:随机数最大取值</span></span><br><span class="line"><span class="comment">//n:一共取生成多少个随机数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">RangedRandom</span><span class="params">(<span class="keyword">int</span> range_min, <span class="keyword">int</span> range_max, <span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i;</span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//取range_min=&lt;randNum&lt;range_max之间的数</span></span><br><span class="line">		<span class="keyword">int</span> u = (<span class="keyword">double</span>)rand() / (RAND_MAX + <span class="number">1</span>) * (range_max - range_min)+ range_min;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; u &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>执行函数：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; rand() &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"大于等于100小于300的随机数,如下:"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	srand((<span class="keyword">unsigned</span>)time(<span class="literal">NULL</span>));</span><br><span class="line">	RangedRandom(<span class="number">100</span>, <span class="number">300</span>, <span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">	system(<span class="string">"PAUSE"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>执行结果如下所示：<br>（第一次）<br><img src="/JoeyMar.git.io/2019/11/13/CPPGenerateRandom/Srand01.JPG" alt><br>（第二次）<br><img src="/JoeyMar.git.io/2019/11/13/CPPGenerateRandom/SRand02.JPG" alt></p>
+<h3 id="rand-s"><a href="#rand-s" class="headerlink" title="rand_s()"></a>rand_s()</h3><p>在需要高保密性代码中使用，srand((unsigned)time(NULL))的最小刷新时间为1s，1s内需要多次刷新随机数，采用rand_s(),具体使用方式见 <a href="https://docs.microsoft.com/zh-cn/cpp/c-runtime-library/reference/rand-s?view=vs-2019" target="_blank" rel="noopener">C++官方参考资料rand_s()</a></p>
+<h3 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h3><p><a href="https://blog.csdn.net/fengying2016/article/details/80573287" target="_blank" rel="noopener">线性同余法</a> ; <a href="https://docs.microsoft.com/zh-cn/cpp/?view=vs-2019" target="_blank" rel="noopener">C++官网API</a> ; <a href="https://www.cnblogs.com/xiaokang01/p/9786751.html" target="_blank" rel="noopener">参考博客</a></p>
 
       
     </div>
@@ -470,8 +481,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/JoeyMar.git.io/2019/04/30/CSharp-Log/" rel="next" title="一个简单的CSharp日志工具">
-                <i class="fa fa-chevron-left"></i> 一个简单的CSharp日志工具
+              <a href="/JoeyMar.git.io/2019/10/31/Binding/" rel="next" title="关于WPF中的数据绑定">
+                <i class="fa fa-chevron-left"></i> 关于WPF中的数据绑定
               </a>
             
           </div>
@@ -479,10 +490,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/JoeyMar.git.io/2019/07/10/CSharp-RSATools/" rel="prev" title="CSharp_采用RSA非对称加密算法进行加密与解密（Helper类）">
-                CSharp_采用RSA非对称加密算法进行加密与解密（Helper类） <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -648,7 +655,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#引用的头文件"><span class="nav-number">1.</span> <span class="nav-text">引用的头文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#源码"><span class="nav-number">2.</span> <span class="nav-text">源码</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#rand"><span class="nav-number">1.</span> <span class="nav-text">rand()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#srand"><span class="nav-number">2.</span> <span class="nav-text">srand()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rand-s"><span class="nav-number">3.</span> <span class="nav-text">rand_s()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考链接："><span class="nav-number">4.</span> <span class="nav-text">参考链接：</span></a></li></ol></div>
             
 
           </div>
