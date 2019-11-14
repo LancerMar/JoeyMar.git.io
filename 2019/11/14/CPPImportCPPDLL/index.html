@@ -96,17 +96,17 @@
 
 
 
-  <meta name="description" content="参考链接：https://blog.csdn.net/a359877454/article/details/80770579">
+  <meta name="description" content="首先，创建一个新的动态链接库工程，在工程中添加一个.cpp文件，输入以下代码：1234567#include &quot;windows.h&quot;using namespace std;//导出函数，返回参数a与参数b之和extern &quot;C&quot; __declspec(dllexport) int __stdcall Sum(int a,int b)&amp;#123;	return a + b;&amp;#125; 点击生成">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++调用动态链接库（dll）的几种方法">
 <meta property="og:url" content="https://lancermar.github.io/2019/11/14/CPPImportCPPDLL/index.html">
 <meta property="og:site_name" content="JoeyMar`s Home">
-<meta property="og:description" content="参考链接：https://blog.csdn.net/a359877454/article/details/80770579">
+<meta property="og:description" content="首先，创建一个新的动态链接库工程，在工程中添加一个.cpp文件，输入以下代码：1234567#include &quot;windows.h&quot;using namespace std;//导出函数，返回参数a与参数b之和extern &quot;C&quot; __declspec(dllexport) int __stdcall Sum(int a,int b)&amp;#123;	return a + b;&amp;#125; 点击生成">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-14T09:31:57.633Z">
+<meta property="og:updated_time" content="2019-11-14T09:36:06.161Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++调用动态链接库（dll）的几种方法">
-<meta name="twitter:description" content="参考链接：https://blog.csdn.net/a359877454/article/details/80770579">
+<meta name="twitter:description" content="首先，创建一个新的动态链接库工程，在工程中添加一个.cpp文件，输入以下代码：1234567#include &quot;windows.h&quot;using namespace std;//导出函数，返回参数a与参数b之和extern &quot;C&quot; __declspec(dllexport) int __stdcall Sum(int a,int b)&amp;#123;	return a + b;&amp;#125; 点击生成">
 
 
 
@@ -366,7 +366,7 @@
                 
               
 
-              <time title="创建时间：2019-11-14 16:21:39 / 修改时间：17:31:57" itemprop="dateCreated datePublished" datetime="2019-11-14T16:21:39+08:00">2019-11-14</time>
+              <time title="创建时间：2019-11-14 16:21:39 / 修改时间：17:36:06" itemprop="dateCreated datePublished" datetime="2019-11-14T16:21:39+08:00">2019-11-14</time>
             
 
             
@@ -430,7 +430,8 @@
       
 
       
-        <p>参考链接：<a href="https://blog.csdn.net/a359877454/article/details/80770579" target="_blank" rel="noopener">https://blog.csdn.net/a359877454/article/details/80770579</a><br><a id="more"></a><br>首先，创建一个新的动态链接库工程，在工程中添加一个.cpp文件，输入以下代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"windows.h"</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="comment">//导出函数，返回参数a与参数b之和</span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> __declspec(dllexport) <span class="keyword">int</span> __<span class="function">stdcall <span class="title">Sum</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+        <a id="more"></a> 
+<p>首先，创建一个新的动态链接库工程，在工程中添加一个.cpp文件，输入以下代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"windows.h"</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="comment">//导出函数，返回参数a与参数b之和</span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> __declspec(dllexport) <span class="keyword">int</span> __<span class="function">stdcall <span class="title">Sum</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>点击生成，生成.dll文件，在这里生成的dll名为“Dllfortest.dll”</p>
 <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>采用C++编写的应用程序使用dll可以采用两种方式：一种是隐式链接，一种是显式链接。在使用dll前，必须先了解dll的函数结构，打开cmd窗口，输入“dumpbin -exports  E:\Dllfortest.dll（文件的绝对路径）”，输出对应可引用的函数名，我这里是“_Sum@8”；另外，Windows系统将遵循下面的搜索顺序来定位DLL： 1．包含EXE文件的目录，2．进程的当前工作目录， 3．Windows系统目录， 4．Windows目录，5．列在Path环境变量中的一系列目录。<br>新建一个C++控制台工程，引入：</p>
 <pre><code class="CPP"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span>
