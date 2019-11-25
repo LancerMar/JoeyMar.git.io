@@ -96,17 +96,20 @@
 
 
 
-  <meta name="description" content="https://www.cnblogs.com/liuxianan/p/build-blog-website-by-hexo-github.html这个写的蛮好，先收藏，哈哈">
+  <meta name="description" content="在使用C++编写程序的过程中，会大量使用到文件的读写，这里稍微梳理归纳一下。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo项目迁移到其他主机以及一些常用的hexo命令">
-<meta property="og:url" content="https://lancermar.github.io/2019/09/10/HexoTrans/index.html">
+<meta property="og:title" content="C++文件操作">
+<meta property="og:url" content="https://lancermar.github.io/2019/11/25/CPPFileOperate/index.html">
 <meta property="og:site_name" content="JoeyMar`s Home">
-<meta property="og:description" content="https://www.cnblogs.com/liuxianan/p/build-blog-website-by-hexo-github.html这个写的蛮好，先收藏，哈哈">
+<meta property="og:description" content="在使用C++编写程序的过程中，会大量使用到文件的读写，这里稍微梳理归纳一下。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-09-10T09:06:41.992Z">
+<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/11/25/CPPFileOperate/FileOp_WriteF_File.JPG">
+<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/11/25/CPPFileOperate/FileOp_WriteFile_Console.JPG">
+<meta property="og:updated_time" content="2019-11-25T08:47:38.896Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo项目迁移到其他主机以及一些常用的hexo命令">
-<meta name="twitter:description" content="https://www.cnblogs.com/liuxianan/p/build-blog-website-by-hexo-github.html这个写的蛮好，先收藏，哈哈">
+<meta name="twitter:title" content="C++文件操作">
+<meta name="twitter:description" content="在使用C++编写程序的过程中，会大量使用到文件的读写，这里稍微梳理归纳一下。">
+<meta name="twitter:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/11/25/CPPFileOperate/FileOp_WriteF_File.JPG">
 
 
 
@@ -114,7 +117,7 @@
 
   
   
-  <link rel="canonical" href="https://lancermar.github.io/2019/09/10/HexoTrans/">
+  <link rel="canonical" href="https://lancermar.github.io/2019/11/25/CPPFileOperate/">
 
 
 
@@ -124,7 +127,7 @@
   };
 </script>
 
-  <title>Hexo项目迁移到其他主机以及一些常用的hexo命令 | JoeyMar`s Home</title>
+  <title>C++文件操作 | JoeyMar`s Home</title>
   
 
 
@@ -323,7 +326,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://lancermar.github.io/JoeyMar.git.io/2019/09/10/HexoTrans/">
+    <link itemprop="mainEntityOfPage" href="https://lancermar.github.io/JoeyMar.git.io/2019/11/25/CPPFileOperate/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="老马">
@@ -340,7 +343,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Hexo项目迁移到其他主机以及一些常用的hexo命令
+          <h1 class="post-title" itemprop="name headline">C++文件操作
 
               
             
@@ -366,7 +369,7 @@
                 
               
 
-              <time title="创建时间：2019-09-10 16:58:33 / 修改时间：17:06:41" itemprop="dateCreated datePublished" datetime="2019-09-10T16:58:33+08:00">2019-09-10</time>
+              <time title="创建时间：2019-11-25 10:26:20 / 修改时间：16:47:38" itemprop="dateCreated datePublished" datetime="2019-11-25T10:26:20+08:00">2019-11-25</time>
             
 
             
@@ -388,7 +391,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/JoeyMar.git.io/categories/Hexo/" itemprop="url" rel="index"><span itemprop="name">Hexo</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/JoeyMar.git.io/categories/C-相关/" itemprop="url" rel="index"><span itemprop="name">C++相关</span></a></span>
 
                 
                 
@@ -430,8 +433,33 @@
       
 
       
-        <a id="more"></a>
-<p><a href="https://www.cnblogs.com/liuxianan/p/build-blog-website-by-hexo-github.html" target="_blank" rel="noopener">https://www.cnblogs.com/liuxianan/p/build-blog-website-by-hexo-github.html</a><br>这个写的蛮好，先收藏，哈哈</p>
+        <p>在使用C++编写程序的过程中，会大量使用到文件的读写，这里稍微梳理归纳一下。<br><a id="more"></a></p>
+<h3 id="缓存与同步（Buffers-and-Synchronization）"><a href="#缓存与同步（Buffers-and-Synchronization）" class="headerlink" title="缓存与同步（Buffers and Synchronization）"></a>缓存与同步（Buffers and Synchronization）</h3><p>当我们对文件流进行操作的时候，它们与一个streambuf 类型的缓存(buffer)联系在一起。这个缓存（buffer）实际是一块内存空间，作为流(stream)和物理文件的媒介。例如，对于一个输出流， 每次成员函数put (写一个单个字符)被调用，这个字符不是直接被写入该输出流所对应的物理文件中的，而是首先被插入到该流的缓存（buffer）中</p>
+<p>当缓存被排放出来(flush)时，它里面的所有数据或者被写入物理媒质中（如果是一个输出流的话），或者简单的被抹掉(如果是一个输入流的话)。这个过程称为同步(synchronization)，它会在以下任一情况下发生：</p>
+<ol>
+<li>当文件被关闭时: 在文件被关闭之前，所有还没有被完全写出或读取的缓存都将被同步；</li>
+<li>当缓存buffer 满时:缓存Buffers 有一定的空间限制。当缓存满时，它会被自动同步；</li>
+<li>控制符明确指明:当遇到流中某些特定的控制符时，同步会发生。这些控制符包括：flush（将缓存全部写入文件） 和endl（缓存写入文件并结束当前行）；</li>
+<li>明确调用函数sync(): 调用成员函数sync() (无参数)可以引发立即同步。这个函数返回一个int 值，等于-1 表示流没有联系的缓存或操作失败。</li>
+</ol>
+<h3 id="文本文档的读写"><a href="#文本文档的读写" class="headerlink" title="文本文档的读写"></a>文本文档的读写</h3><p>写入具体的文本，然后将文本读取并打印到控制台，源码如下所示：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//以读/写/如果文件已存在则先删除该文件，的方式打开文件</span></span><br><span class="line">	<span class="function">fstream <span class="title">fs</span><span class="params">(<span class="string">"FsTest.txt"</span>, ios::in | ios::out | ios::trunc)</span></span>;</span><br><span class="line">	<span class="keyword">if</span> (!fs.bad())</span><br><span class="line">	&#123;</span><br><span class="line">		fs &lt;&lt; <span class="string">"Wite And Read File Test"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">		<span class="comment">////缓存释放</span></span><br><span class="line">		<span class="comment">//fs.flush();</span></span><br><span class="line">		<span class="comment">////缓存释放并同步</span></span><br><span class="line">		<span class="comment">//fs.sync();</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">//关闭文件</span></span><br><span class="line">		fs.close();</span><br><span class="line"></span><br><span class="line">		<span class="comment">//以读文件的形式打开文件</span></span><br><span class="line">		fs.open(<span class="string">"FsTest.txt"</span>, ios::in);</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; fs.rdbuf() &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">		fs.close();</span><br><span class="line">	&#125;</span><br><span class="line">	system(<span class="string">"PAUSE"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>执行结果：</p>
+<ol>
+<li>写入文件的内容：<br><img src="/JoeyMar.git.io/2019/11/25/CPPFileOperate/FileOp_WriteF_File.JPG" alt></li>
+<li>运行结果（控制台）：<br><img src="/JoeyMar.git.io/2019/11/25/CPPFileOperate/FileOp_WriteFile_Console.JPG" alt></li>
+</ol>
+<h3 id="ios类"><a href="#ios类" class="headerlink" title="ios类"></a>ios类</h3><p>打开文件的方式在ios类(是流式I/O的基类)中定义，有如下几种方式：</p>
+<ol>
+<li>ios::in 以输入的方式打开文件（读文件）；</li>
+<li>ios::out 以输出的方式打开文件（写文件）；</li>
+<li>ios::ate 打开文件时，将File指针指向文件尾；</li>
+<li>ios::app 输出数据（写文件）附加在文件尾（循环写入时，不覆盖之前写入的数据）；</li>
+<li>ios::trunc 如果文件已存在则先删除该文件后创建；</li>
+<li>ios::binary 以二进制的方式操作文件；</li>
+</ol>
+<p>打开方式可以同时存在多种，以“或”运算连接符”|”连接，如下所示<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">fstream <span class="title">fs</span><span class="params">(<span class="string">"FsTest.txt"</span>, ios::in | ios::out | ios::trunc)</span></span>;</span><br></pre></td></tr></table></figure></p>
+<p>因为在Stream类的构造函数中调用了Open()函数，所以在打开文件时可以不需要显式的调用Open(),可以直接在初始化时打开并操作文件。</p>
+<h3 id="close"><a href="#close" class="headerlink" title="close()"></a>close()</h3><h3 id="参考连接"><a href="#参考连接" class="headerlink" title="参考连接"></a>参考连接</h3><p><a href="https://blog.csdn.net/kingstar158/article/details/6859379" target="_blank" rel="noopener">C++文件读写详情</a> ； <a href="https://docs.microsoft.com/zh-cn/cpp/standard-library/basic-fstream-class?view=vs-2019" target="_blank" rel="noopener">basic_fstream 类</a> ； </p>
 
       
     </div>
@@ -462,8 +490,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/JoeyMar.git.io/2019/07/16/CPPConcurrent02/" rel="next" title="C++并发编程随笔（二）(std::thread)">
-                <i class="fa fa-chevron-left"></i> C++并发编程随笔（二）(std::thread)
+              <a href="/JoeyMar.git.io/2019/11/14/CPPImportCPPDLL/" rel="next" title="C++调用动态链接库（dll）的几种方法">
+                <i class="fa fa-chevron-left"></i> C++调用动态链接库（dll）的几种方法
               </a>
             
           </div>
@@ -471,10 +499,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/JoeyMar.git.io/2019/10/10/CharpDelegate/" rel="prev" title="Charp委托与事件">
-                Charp委托与事件 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -518,8 +542,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -620,6 +653,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#缓存与同步（Buffers-and-Synchronization）"><span class="nav-number">1.</span> <span class="nav-text">缓存与同步（Buffers and Synchronization）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文本文档的读写"><span class="nav-number">2.</span> <span class="nav-text">文本文档的读写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ios类"><span class="nav-number">3.</span> <span class="nav-text">ios类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#close"><span class="nav-number">4.</span> <span class="nav-text">close()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考连接"><span class="nav-number">5.</span> <span class="nav-text">参考连接</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
