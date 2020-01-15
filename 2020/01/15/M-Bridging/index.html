@@ -96,19 +96,19 @@
 
 
 
-  <meta name="description" content="UDPserver建立UDP服务端">
+  <meta name="description" content="概念将抽象部分与它的实现部分分离，使它们都可以独立地变化。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C++中建立简单的UDP通信">
-<meta property="og:url" content="https://lancermar.github.io/2019/04/29/hello-world/index.html">
+<meta property="og:title" content="桥接模式">
+<meta property="og:url" content="https://lancermar.github.io/2020/01/15/M-Bridging/index.html">
 <meta property="og:site_name" content="JoeyMar`s Home">
-<meta property="og:description" content="UDPserver建立UDP服务端">
+<meta property="og:description" content="概念将抽象部分与它的实现部分分离，使它们都可以独立地变化。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/04/29/hello-world/onepiceSign.jpg">
-<meta property="og:updated_time" content="2019-07-10T03:22:22.600Z">
+<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2020/01/15/M-Bridging/DrawPurpleCircle.JPG">
+<meta property="og:updated_time" content="2020-01-15T07:56:12.190Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C++中建立简单的UDP通信">
-<meta name="twitter:description" content="UDPserver建立UDP服务端">
-<meta name="twitter:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/04/29/hello-world/onepiceSign.jpg">
+<meta name="twitter:title" content="桥接模式">
+<meta name="twitter:description" content="概念将抽象部分与它的实现部分分离，使它们都可以独立地变化。">
+<meta name="twitter:image" content="https://lancermar.github.io/JoeyMar.git.io/2020/01/15/M-Bridging/DrawPurpleCircle.JPG">
 
 
 
@@ -116,7 +116,7 @@
 
   
   
-  <link rel="canonical" href="https://lancermar.github.io/2019/04/29/hello-world/">
+  <link rel="canonical" href="https://lancermar.github.io/2020/01/15/M-Bridging/">
 
 
 
@@ -126,7 +126,7 @@
   };
 </script>
 
-  <title>C++中建立简单的UDP通信 | JoeyMar`s Home</title>
+  <title>桥接模式 | JoeyMar`s Home</title>
   
 
 
@@ -325,7 +325,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://lancermar.github.io/JoeyMar.git.io/2019/04/29/hello-world/">
+    <link itemprop="mainEntityOfPage" href="https://lancermar.github.io/JoeyMar.git.io/2020/01/15/M-Bridging/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="老马">
@@ -342,7 +342,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">C++中建立简单的UDP通信
+          <h1 class="post-title" itemprop="name headline">桥接模式
 
               
             
@@ -368,24 +368,12 @@
                 
               
 
-              <time title="创建时间：2019-04-29 10:57:18" itemprop="dateCreated datePublished" datetime="2019-04-29T10:57:18+08:00">2019-04-29</time>
+              <time title="创建时间：2020-01-15 14:48:32 / 修改时间：15:56:12" itemprop="dateCreated datePublished" datetime="2020-01-15T14:48:32+08:00">2020-01-15</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-07-10 11:22:22" itemprop="dateModified" datetime="2019-07-10T11:22:22+08:00">2019-07-10</time>
               
             
           </span>
@@ -402,7 +390,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/JoeyMar.git.io/categories/C-相关/" itemprop="url" rel="index"><span itemprop="name">C++相关</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/JoeyMar.git.io/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
 
                 
                 
@@ -444,17 +432,26 @@
       
 
       
-        <h3 id="UDPserver"><a href="#UDPserver" class="headerlink" title="UDPserver"></a>UDPserver</h3><p>建立UDP服务端<br><a id="more"></a><br>需要引用的头文件<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;winsock2.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"iostream"</span></span></span><br></pre></td></tr></table></figure></p>
-<p>服务端源码<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">SOCKET RecvSocet;</span><br><span class="line"><span class="comment">//UDP服务端地址</span></span><br><span class="line">sockaddr_in RecvAddr;</span><br><span class="line"><span class="comment">//用于存储UDP客户端地址</span></span><br><span class="line">sockaddr_in SenderAddr;</span><br><span class="line"></span><br><span class="line">WSADATA wsaData;</span><br><span class="line">WSAStartup(MAKEWORD(<span class="number">2</span>, <span class="number">2</span>), &amp;wsaData);</span><br><span class="line"></span><br><span class="line">RecvSocet = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);</span><br><span class="line"></span><br><span class="line"><span class="comment">//绑定接收端口</span></span><br><span class="line">RecvAddr.sin_family = AF_INET;</span><br><span class="line">RecvAddr.sin_port = htons(<span class="number">20008</span>);</span><br><span class="line">RecvAddr.sin_addr.S_un.S_addr = htonl(INADDR_ANY);</span><br><span class="line">bind(RecvSocet, (SOCKADDR *)&amp;RecvAddr, <span class="keyword">sizeof</span>(RecvAddr));</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"Receiving Data..."</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="comment">//阻塞接收信息</span></span><br><span class="line">	countChar = recvfrom(RecvSocet, RecvBuf, BUFLEN, <span class="number">0</span>, (SOCKADDR *)&amp;SenderAddr, &amp;SenderAddrSize);</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"Finish receiving Data: "</span> &lt;&lt; RecvBuf &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//todo: 处理收到的数据</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="comment">//todo: 处理收到的数据</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">closesocket(RecvSocet);</span><br><span class="line">WSACleanup();</span><br></pre></td></tr></table></figure></p>
-<p>当接收到数据后，之前定义的SenderAddr对象中已经存储了客户端的相关地址信息，如果需要在业务流程中<br>对客户端发来消息进行回复，利用该对象即可回复消息</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">sockaddr_in sendbind;</span><br><span class="line">SOCKET SendSocket;</span><br><span class="line"></span><br><span class="line">sendbind.sin_family = AF_INET;</span><br><span class="line">sendbind.sin_port = htons(<span class="number">20008</span>);</span><br><span class="line">sendbind.sin_addr.S_un.S_addr = inet_addr(<span class="string">"127.0.0.1"</span>);</span><br><span class="line"></span><br><span class="line">bind(SendSocket, (SOCKADDR *)&amp;sendbind, <span class="keyword">sizeof</span>(sendbind));</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义回复数据</span></span><br><span class="line"><span class="keyword">char</span> ReturnBuf[<span class="number">1024</span>]= <span class="string">"return Message"</span>;</span><br><span class="line">sendto(SendSocket, (<span class="keyword">char</span> *)&amp;ReturnBuf, <span class="keyword">sizeof</span>(ReturnBuf), <span class="number">0</span>, (SOCKADDR *)&amp;RecvAddr, <span class="keyword">sizeof</span>(RecvAddr));</span><br><span class="line"></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; <span class="string">"finishing sending"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">closesocket(SendSocket);</span><br><span class="line">WSACleanup();</span><br></pre></td></tr></table></figure>
-<p>在这里有个之前踩过的坑，如果分线程进行UDP收发的话，需要重新绑定一个SOCKET对象，当然也可以不绑<br>定如果不绑定，系统会随机筛选一个IP与端口进行发送。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sockaddr_in sendbind;</span><br><span class="line">SOCKET SendSocket;</span><br><span class="line"></span><br><span class="line">sendbind.sin_family = AF_INET;</span><br><span class="line">sendbind.sin_port = htons(<span class="number">20008</span>);</span><br><span class="line">sendbind.sin_addr.S_un.S_addr = inet_addr(<span class="string">"127.0.0.1"</span>);</span><br><span class="line"><span class="comment">//发送绑定</span></span><br><span class="line">bind(SendSocket, (SOCKADDR *)&amp;sendbind, <span class="keyword">sizeof</span>(sendbind));</span><br></pre></td></tr></table></figure>
-<h3 id="UDPClient"><a href="#UDPClient" class="headerlink" title="UDPClient"></a>UDPClient</h3><p>搭建UDP客户端，与C++服务端回复相同，绑定IP与端口后调用sendto函数即可</p>
-<pre><code class="CPP">sendto(SendSocket, (<span class="keyword">char</span> *)&amp;ReturnBuf, <span class="keyword">sizeof</span>(ReturnBuf), <span class="number">0</span>, (SOCKADDR *)&amp;RecvAddr, <span class="keyword">sizeof</span>(RecvAddr));
-</code></pre>
-<p>外链: <a href="https://baike.baidu.com/item/C++/99272" target="_blank" rel="noopener">C++定义</a></p>
-<p>//————————————————————————–致我们终将奔向的远方————————————————-<br><img src="/JoeyMar.git.io/2019/04/29/hello-world/onepiceSign.jpg" alt></p>
+        <h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>将抽象部分与它的实现部分分离，使它们都可以独立地变化。<br><a id="more"></a> </p>
+<h3 id="优劣势"><a href="#优劣势" class="headerlink" title="优劣势"></a>优劣势</h3><ol>
+<li>优势<br>抽象和实现的分离；优秀的扩展能力；实现细节透明化。</li>
+<li>劣势<br>增加了系统的理解和设计难度，由于聚合关联关系建立在抽象层，要求开发者针对抽象进行设计和编程；要求正确识别出系统中两个独立变化的维度，因此其使用范围有一定的局限性。</li>
+</ol>
+<h3 id="适用范围"><a href="#适用范围" class="headerlink" title="适用范围"></a>适用范围</h3><p>一个类存在两个独立变化的维度，且这两个维度都需要进行扩展；对于那些不希望使用继承或因为多层次继承导致系统类的个数急剧增加的系统，桥接模式尤为适用。</p>
+<h3 id="角色定义"><a href="#角色定义" class="headerlink" title="角色定义"></a>角色定义</h3><p>以画一个紫色的圆形的功能，进行实现并解释，在这个功能中，紫色和圆形可以分别作为两个可以独立变化的量，分别抽象为颜色和形状；我们把桥接模式分为以下几个角色：</p>
+<ol>
+<li>抽象类角色（Abstraction）：抽象化生成的类，如形状类；</li>
+<li>接口实现类角色（Implementor）：行为实现接口，抽象化后关注的其他的特性，如例子中颜色接口。注意：我们也可以把颜色抽象化生成抽象类，把形状作为行为实现接口；</li>
+<li>抽象类子类（RefinedAbstraction）：如圆形，长方形，三角形等；</li>
+<li>接口实现子类（ConcreteImplementor）：如黄色，红色，紫色等；</li>
+</ol>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>颜色接口实现类：<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IColor</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Paint</span>(<span class="params"><span class="keyword">string</span> shape</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>颜色接口实现子类：<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Blue</span> : <span class="title">IColor</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Paint</span>(<span class="params"><span class="keyword">string</span> shape</span>)</span></span><br><span class="line"><span class="function"></span>	&#123;</span><br><span class="line">		Console.WriteLine(<span class="string">"Blue "</span> + shape);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Yellow</span> : <span class="title">IColor</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Paint</span>(<span class="params"><span class="keyword">string</span> shape</span>)</span></span><br><span class="line"><span class="function"></span>	&#123;</span><br><span class="line">		Console.WriteLine(<span class="string">"Yellow "</span> + shape);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Purple</span> : <span class="title">IColor</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Paint</span>(<span class="params"><span class="keyword">string</span> shape</span>)</span></span><br><span class="line"><span class="function"></span>	&#123;</span><br><span class="line">		Console.WriteLine(<span class="string">"Purple "</span> + shape);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>形状抽象类：<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title">Shape</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//包含颜色接口类，实现颜色与形状的关联</span></span><br><span class="line">	<span class="keyword">protected</span> IColor color;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SetColor</span>(<span class="params">IColor color</span>)</span></span><br><span class="line"><span class="function"></span>	&#123;</span><br><span class="line">		<span class="keyword">this</span>.color = color;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//形状类需要实现的方法</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">Draw</span>(<span class="params"></span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>形状抽象子类：<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">	<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Circle</span> : <span class="title">Shape</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">Draw</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>		&#123;</span><br><span class="line">			color.Paint(<span class="string">"Circle"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Tangle</span> : <span class="title">Shape</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">Draw</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>		&#123;</span><br><span class="line">			color.Paint(<span class="string">"Tangle"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Triangle</span> : <span class="title">Shape</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">Draw</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>		&#123;</span><br><span class="line">			color.Paint(<span class="string">"Triangle"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>调用代码：<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//将形状类实例化为圆形对象</span></span><br><span class="line">Shape Circle = <span class="keyword">new</span> Circle();</span><br><span class="line"><span class="comment">//实现接口实现为紫色对象</span></span><br><span class="line">IColor Purple = <span class="keyword">new</span> Purple();</span><br><span class="line"><span class="comment">//设置形状颜色</span></span><br><span class="line">Circle.SetColor(Purple);</span><br><span class="line"><span class="comment">//调用形状类方法</span></span><br><span class="line">Circle.Draw();</span><br></pre></td></tr></table></figure></p>
+<p>执行结果：<br><img src="/JoeyMar.git.io/2020/01/15/M-Bridging/DrawPurpleCircle.JPG" alt></p>
+<p>参考链接：<a href="https://www.jianshu.com/p/61ad71954c74" target="_blank" rel="noopener">桥接模式参考</a> ； <a href="https://www.cnblogs.com/frank0812/p/11280213.html" target="_blank" rel="noopener">实现参考</a></p>
 
       
     </div>
@@ -485,15 +482,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/JoeyMar.git.io/2020/01/13/CSharpUsualDataTools/" rel="next" title="CSharp一些有用的处理数据的工具">
+                <i class="fa fa-chevron-left"></i> CSharp一些有用的处理数据的工具
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/JoeyMar.git.io/2019/04/30/CSharp-Log/" rel="prev" title="一个简单的CSharp日志工具">
-                一个简单的CSharp日志工具 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -661,7 +658,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#UDPserver"><span class="nav-number">1.</span> <span class="nav-text">UDPserver</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UDPClient"><span class="nav-number">2.</span> <span class="nav-text">UDPClient</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优劣势"><span class="nav-number">2.</span> <span class="nav-text">优劣势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#适用范围"><span class="nav-number">3.</span> <span class="nav-text">适用范围</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#角色定义"><span class="nav-number">4.</span> <span class="nav-text">角色定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现"><span class="nav-number">5.</span> <span class="nav-text">实现</span></a></li></ol></div>
             
 
           </div>
