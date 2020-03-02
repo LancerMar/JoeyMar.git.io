@@ -96,21 +96,20 @@
 
 
 
-  <meta name="description" content="C++中一些关于生成随机数的方法">
+  <meta name="description" content="最近因为项目原因，需要将一个在Windows上编写的C++的代码迁移到Linux上，开始了解一下Linux的C\C++，记录下踩了的坑。持续学习更新中。。。 Linux安装">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C++随机数生成">
-<meta property="og:url" content="https://lancermar.github.io/2019/11/13/CPPGenerateRandom/index.html">
+<meta property="og:title" content="Linux的C\C++(一)：Linux从安装操作系统到搭建C++环境">
+<meta property="og:url" content="https://lancermar.github.io/2020/02/14/LinuxCPPBuildEnv/index.html">
 <meta property="og:site_name" content="JoeyMar`s Home">
-<meta property="og:description" content="C++中一些关于生成随机数的方法">
+<meta property="og:description" content="最近因为项目原因，需要将一个在Windows上编写的C++的代码迁移到Linux上，开始了解一下Linux的C\C++，记录下踩了的坑。持续学习更新中。。。 Linux安装">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/11/13/CPPGenerateRandom/CPPRand.JPG">
-<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/11/13/CPPGenerateRandom/Srand01.JPG">
-<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/11/13/CPPGenerateRandom/SRand02.JPG">
-<meta property="og:updated_time" content="2019-11-13T07:40:34.065Z">
+<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2020/02/14/LinuxCPPBuildEnv/UbuntuRelease.JPG">
+<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2020/02/14/LinuxCPPBuildEnv/LinuxInstallCPP.JPG">
+<meta property="og:updated_time" content="2020-03-02T06:57:41.015Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C++随机数生成">
-<meta name="twitter:description" content="C++中一些关于生成随机数的方法">
-<meta name="twitter:image" content="https://lancermar.github.io/JoeyMar.git.io/2019/11/13/CPPGenerateRandom/CPPRand.JPG">
+<meta name="twitter:title" content="Linux的C\C++(一)：Linux从安装操作系统到搭建C++环境">
+<meta name="twitter:description" content="最近因为项目原因，需要将一个在Windows上编写的C++的代码迁移到Linux上，开始了解一下Linux的C\C++，记录下踩了的坑。持续学习更新中。。。 Linux安装">
+<meta name="twitter:image" content="https://lancermar.github.io/JoeyMar.git.io/2020/02/14/LinuxCPPBuildEnv/UbuntuRelease.JPG">
 
 
 
@@ -118,7 +117,7 @@
 
   
   
-  <link rel="canonical" href="https://lancermar.github.io/2019/11/13/CPPGenerateRandom/">
+  <link rel="canonical" href="https://lancermar.github.io/2020/02/14/LinuxCPPBuildEnv/">
 
 
 
@@ -128,7 +127,7 @@
   };
 </script>
 
-  <title>C++随机数生成 | JoeyMar`s Home</title>
+  <title>Linux的C\C++(一)：Linux从安装操作系统到搭建C++环境 | JoeyMar`s Home</title>
   
 
 
@@ -327,7 +326,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://lancermar.github.io/JoeyMar.git.io/2019/11/13/CPPGenerateRandom/">
+    <link itemprop="mainEntityOfPage" href="https://lancermar.github.io/JoeyMar.git.io/2020/02/14/LinuxCPPBuildEnv/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="老马">
@@ -344,7 +343,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">C++随机数生成
+          <h1 class="post-title" itemprop="name headline">Linux的C\C++(一)：Linux从安装操作系统到搭建C++环境
 
               
             
@@ -370,12 +369,24 @@
                 
               
 
-              <time title="创建时间：2019-11-13 10:59:24 / 修改时间：15:40:34" itemprop="dateCreated datePublished" datetime="2019-11-13T10:59:24+08:00">2019-11-13</time>
+              <time title="创建时间：2020-02-14 16:07:41" itemprop="dateCreated datePublished" datetime="2020-02-14T16:07:41+08:00">2020-02-14</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-03-02 14:57:41" itemprop="dateModified" datetime="2020-03-02T14:57:41+08:00">2020-03-02</time>
               
             
           </span>
@@ -392,7 +403,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/JoeyMar.git.io/categories/C-相关/" itemprop="url" rel="index"><span itemprop="name">C++相关</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/JoeyMar.git.io/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
 
                 
                 
@@ -434,23 +445,23 @@
       
 
       
-        <p>C++中一些关于生成随机数的方法<br><a id="more"></a> </p>
-<h3 id="rand"><a href="#rand" class="headerlink" title="rand()"></a>rand()</h3><p>使用线性同余法，在一定范围内生成伪随机数，直接调用rand().会直接返回一个随机数值。范围在0-RAND_MAX（2147483647）之间，RAND_MAX的宏定义在stdlib.h中。<br>使用前需引入如下的库：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br></pre></td></tr></table></figure></p>
-<p>新建一个C++控制台应用，生成10个随机数<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; rand()&lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	system(<span class="string">"PAUSE"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>运行结果如下所示，因为没有设置种子的伪随机数，所以每次生成的结果是一样的，因此这里需要使用srand()设置随机数种子。<br><img src="/JoeyMar.git.io/2019/11/13/CPPGenerateRandom/CPPRand.JPG" alt></p>
-<h3 id="srand"><a href="#srand" class="headerlink" title="srand()"></a>srand()</h3><p>以机器时间为种子，可以避免每次生成的随机数一样，使用前需要引入：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br></pre></td></tr></table></figure></p>
-<p>生成关于时间的随机数种子：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">srand((<span class="keyword">unsigned</span>)time(<span class="literal">NULL</span>));</span><br></pre></td></tr></table></figure></p>
-<p>大多数情况下需要规定一个随机数生成的范围，在这里采用如下的方法，进行生成</p>
-<ol>
-<li>获取0~1之间的浮点数，rand() / double(RAND_MAX);</li>
-<li>获取大于等于最小值，小于最大值的整数；(double)rand() / (RAND_MAX + 1) * (range_max - range_min)+ range_min;</li>
-<li>取得0~（n-1）之间的随机整数，rand（）%n  </li>
+        <p>最近因为项目原因，需要将一个在Windows上编写的C++的代码迁移到Linux上，开始了解一下Linux的C\C++，记录下踩了的坑。持续学习更新中。。。</p>
+<h3 id="Linux安装"><a href="#Linux安装" class="headerlink" title="Linux安装"></a>Linux安装</h3><a id="more"></a>
+<p>官网下载：<a href="https://ubuntu.com/download" target="_blank" rel="noopener">Ubuntu</a> 然后直接下一步默认操作安装完就行了。<br>安装C++环境有个坑（后面安装部分会提到），linux并不默认带C++编译环境，需要下载安装，如果直接安装的话，因为apt源是国外的源，安装起来会非常非常慢，修改为国内的源会好很多，这里更改为阿里云源；</p>
+<h3 id="Ubuntu更改apt源为阿里云源"><a href="#Ubuntu更改apt源为阿里云源" class="headerlink" title="Ubuntu更改apt源为阿里云源"></a>Ubuntu更改apt源为阿里云源</h3><ol>
+<li>将需要修改的文件 /etc/apt/sources.list 备份，命令：sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak</li>
+<li>安装vim，命令：sudo apt-get install vim</li>
+<li><p>查看当前系统的版本号，命令：lsb_release -c；如下图<br><img src="/JoeyMar.git.io/2020/02/14/LinuxCPPBuildEnv/UbuntuRelease.JPG" alt><br>当前版本为 Ubuntu 18.04；<br>其他版本对应：<br>Ubuntu 12.04 (LTS)代号为precise。<br>Ubuntu 14.04 (LTS)代号为trusty。<br>Ubuntu 15.04 代号为vivid。<br>Ubuntu 15.10 代号为wily。<br>Ubuntu 16.04 (LTS)代号为xenial。</p>
+</li>
+<li><p>注释或删除原有内容，添加以下内容到list文件中即可</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">deb</span> http://mirrors.aliyun.<span class="keyword">com</span>/ubuntu/ bionic main restricted universe multiverse</span><br><span class="line"><span class="keyword">deb</span>-src http://mirrors.aliyun.<span class="keyword">com</span>/ubuntu/ bionic main restricted universe multiverse</span><br><span class="line"><span class="keyword">deb</span> http://mirrors.aliyun.<span class="keyword">com</span>/ubuntu/ bionic-security main restricted universe multiverse</span><br><span class="line"><span class="keyword">deb</span>-src http://mirrors.aliyun.<span class="keyword">com</span>/ubuntu/ bionic-security main restricted universe multiverse</span><br><span class="line"><span class="keyword">deb</span> http://mirrors.aliyun.<span class="keyword">com</span>/ubuntu/ bionic-updates main restricted universe multiverse</span><br><span class="line"><span class="keyword">deb</span>-src http://mirrors.aliyun.<span class="keyword">com</span>/ubuntu/ bionic-updates main restricted universe multiverse</span><br><span class="line"><span class="keyword">deb</span> http://mirrors.aliyun.<span class="keyword">com</span>/ubuntu/ bionic-backports main restricted universe multiverse</span><br><span class="line"><span class="keyword">deb</span>-src http://mirrors.aliyun.<span class="keyword">com</span>/ubuntu/ bionic-backports main restricted universe multiverse</span><br><span class="line"><span class="keyword">deb</span> http://mirrors.aliyun.<span class="keyword">com</span>/ubuntu/ bionic-proposed main restricted universe multiverse</span><br><span class="line"><span class="keyword">deb</span>-src http://mirrors.aliyun.<span class="keyword">com</span>/ubuntu/ bionic-proposed main restricted universe multiverse</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>更新软件列表与更新软件包；命令如下：<br>更新软件列表： sudo apt-get update<br>更新软件包： sudo apt-get upgrade</p>
+</li>
 </ol>
-<p>第二点源代码如下：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//range_min:随机数最小取值</span></span><br><span class="line"><span class="comment">//range_max:随机数最大取值</span></span><br><span class="line"><span class="comment">//n:一共取生成多少个随机数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">RangedRandom</span><span class="params">(<span class="keyword">int</span> range_min, <span class="keyword">int</span> range_max, <span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i;</span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//取range_min=&lt;randNum&lt;range_max之间的数</span></span><br><span class="line">		<span class="keyword">int</span> u = (<span class="keyword">double</span>)rand() / (RAND_MAX + <span class="number">1</span>) * (range_max - range_min)+ range_min;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; u &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>执行函数：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; rand() &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"大于等于100小于300的随机数,如下:"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	srand((<span class="keyword">unsigned</span>)time(<span class="literal">NULL</span>));</span><br><span class="line">	RangedRandom(<span class="number">100</span>, <span class="number">300</span>, <span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">	system(<span class="string">"PAUSE"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>执行结果如下所示：<br>（第一次）<br><img src="/JoeyMar.git.io/2019/11/13/CPPGenerateRandom/Srand01.JPG" alt><br>（第二次）<br><img src="/JoeyMar.git.io/2019/11/13/CPPGenerateRandom/SRand02.JPG" alt></p>
-<h3 id="rand-s"><a href="#rand-s" class="headerlink" title="rand_s()"></a>rand_s()</h3><p>在需要高保密性代码中使用，srand((unsigned)time(NULL))的最小刷新时间为1s，1s内需要多次刷新随机数，采用rand_s(),具体使用方式见 <a href="https://docs.microsoft.com/zh-cn/cpp/c-runtime-library/reference/rand-s?view=vs-2019" target="_blank" rel="noopener">C++官方参考资料rand_s()</a></p>
-<h3 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h3><p><a href="https://blog.csdn.net/fengying2016/article/details/80573287" target="_blank" rel="noopener">线性同余法</a> ; <a href="https://docs.microsoft.com/zh-cn/cpp/?view=vs-2019" target="_blank" rel="noopener">C++官网API</a> ; <a href="https://www.cnblogs.com/xiaokang01/p/9786751.html" target="_blank" rel="noopener">参考博客</a></p>
+<h3 id="C-环境安装"><a href="#C-环境安装" class="headerlink" title="C++环境安装"></a>C++环境安装</h3><p>安装命令：sudo apt-get install g++<br>这里有个问题我搞了很久，执行以上安装命令会报如下错误，如下图：<br><img src="/JoeyMar.git.io/2020/02/14/LinuxCPPBuildEnv/LinuxInstallCPP.JPG" alt><br>看了下下面这个报错，就是没有依赖库，需要更新。<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">The following packages have unmet dependencie<span class="variable">s:</span></span><br><span class="line">g++ : Depends g++ -<span class="number">7</span>(&gt;=<span class="number">1.4</span>.<span class="number">0.1</span>) but it <span class="keyword">is</span> not going <span class="keyword">to</span> <span class="keyword">be</span> installed</span><br></pre></td></tr></table></figure></p>
+<p>这时如果直接执行更新，会非常慢，注意：这里一定要更改apt源后再更新</p>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p>apt源更改； <a href="https://blog.csdn.net/zhangjiahao14/article/details/80554616" target="_blank" rel="noopener">Ubuntu18.04下更改apt源为阿里云源</a> </p>
 
       
     </div>
@@ -481,8 +492,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/JoeyMar.git.io/2019/10/31/Binding/" rel="next" title="关于WPF中的数据绑定">
-                <i class="fa fa-chevron-left"></i> 关于WPF中的数据绑定
+              <a href="/JoeyMar.git.io/2020/01/19/CSharp-BackGroundWorker/" rel="next" title="CSharp并发编程 —— EAP异步编程模式">
+                <i class="fa fa-chevron-left"></i> CSharp并发编程 —— EAP异步编程模式
               </a>
             
           </div>
@@ -490,10 +501,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/JoeyMar.git.io/2019/11/14/CPPImportCPPDLL/" rel="prev" title="C++调用动态链接库（dll）的几种方法">
-                C++调用动态链接库（dll）的几种方法 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -663,7 +670,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#rand"><span class="nav-number">1.</span> <span class="nav-text">rand()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#srand"><span class="nav-number">2.</span> <span class="nav-text">srand()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rand-s"><span class="nav-number">3.</span> <span class="nav-text">rand_s()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考链接："><span class="nav-number">4.</span> <span class="nav-text">参考链接：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux安装"><span class="nav-number">1.</span> <span class="nav-text">Linux安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ubuntu更改apt源为阿里云源"><span class="nav-number">2.</span> <span class="nav-text">Ubuntu更改apt源为阿里云源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-环境安装"><span class="nav-number">3.</span> <span class="nav-text">C++环境安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文献"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
             
 
           </div>
