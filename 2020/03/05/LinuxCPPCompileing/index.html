@@ -105,7 +105,8 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2020/03/05/LinuxCPPCompileing/LinuxHelloWordtest01.JPG">
 <meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2020/03/05/LinuxCPPCompileing/LinuxHelloWordTest02.JPG">
-<meta property="og:updated_time" content="2020-03-05T06:37:27.025Z">
+<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2020/03/05/LinuxCPPCompileing/LinuxHelloWordMulti01.JPG">
+<meta property="og:updated_time" content="2020-03-05T07:10:17.025Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux的C\C++(二)：在Linux环境下编译C++程序">
 <meta name="twitter:description" content="单个源文件的编译">
@@ -369,7 +370,7 @@
                 
               
 
-              <time title="创建时间：2020-03-05 14:09:42 / 修改时间：14:37:27" itemprop="dateCreated datePublished" datetime="2020-03-05T14:09:42+08:00">2020-03-05</time>
+              <time title="创建时间：2020-03-05 14:09:42 / 修改时间：15:10:17" itemprop="dateCreated datePublished" datetime="2020-03-05T14:09:42+08:00">2020-03-05</time>
             
 
             
@@ -435,9 +436,17 @@
       
         <h3 id="单个源文件的编译"><a href="#单个源文件的编译" class="headerlink" title="单个源文件的编译"></a>单个源文件的编译</h3><a id="more"></a>
 <p>一个简单的打印Linux Hello Word的程序：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>* argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Linux hello, world"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">	<span class="keyword">return</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>在当前目录下，使用以下命令编译该源文件为可执行文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ helloworld.cpp</span><br></pre></td></tr></table></figure></p>
+<p>在当前目录下，使用以下命令编译该源文件为可执行文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ g++ helloworld.cpp</span><br></pre></td></tr></table></figure></p>
 <p>由于命令行中未指定可执行程序的文件名，编译器采用默认的 a.out，直接输入命令./a.out,即可执行生成的可执行文件，如下图所示：<br><img src="/JoeyMar.git.io/2020/03/05/LinuxCPPCompileing/LinuxHelloWordtest01.JPG" alt><br>一般来讲，可以通过 ”-o“ 来指定生成的可执行文件的名字，输入自定义的名字即可执行，如下图所示：<br><img src="/JoeyMar.git.io/2020/03/05/LinuxCPPCompileing/LinuxHelloWordTest02.JPG" alt></p>
-<h3 id="多个源文件的编译"><a href="#多个源文件的编译" class="headerlink" title="多个源文件的编译"></a>多个源文件的编译</h3>
+<h3 id="多个源文件的编译"><a href="#多个源文件的编译" class="headerlink" title="多个源文件的编译"></a>多个源文件的编译</h3><p>头文件（LxPrint.h）：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> once</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LxPrint</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">printSth</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>* Data)</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>源文件（LxPrint.cpp）实现函数 printSth(const char* Data)：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"LxPrint.h"</span></span></span><br><span class="line"><span class="keyword">void</span> LxPrint::printSth(<span class="keyword">const</span> <span class="keyword">char</span>* Data)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt;<span class="string">"LinuxTest: "</span>&lt;&lt; Data &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>源文件（LinuxHelloWord.cpp） 主函数，执行入口，调用printSth打印相关输入：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"LxPrint.h"</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>* argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	LxPrint lxprint;</span><br><span class="line">	lxprint.printSth(<span class="string">"Hello Word ! "</span>);</span><br><span class="line">	<span class="keyword">return</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>输入以下命令，将多个文件编译为可执行文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ g++ LxPrint.cpp LinuxHelloWord.cpp -o Helloword</span><br></pre></td></tr></table></figure></p>
+<p>./Helloword执行：<br><img src="/JoeyMar.git.io/2020/03/05/LinuxCPPCompileing/LinuxHelloWordMulti01.JPG" alt><br>在源文件中包含了”#include”speak.h”，它的意思是搜索系统头文件目录之前将先在当前目录中搜索文件“speak.h“。而”speak.h“正在该目录中，不需要再次指定</p>
+<h3 id="生成中间对象文件-o"><a href="#生成中间对象文件-o" class="headerlink" title="生成中间对象文件(.o)"></a>生成中间对象文件(.o)</h3><h3 id="参考连接"><a href="#参考连接" class="headerlink" title="参考连接"></a>参考连接</h3><ol>
+<li>Linux下编译CPP：<a href="https://www.cnblogs.com/wangshaowei/p/10242066.html" target="_blank" rel="noopener">在linux环境下编译C++ 程序</a> </li>
+</ol>
+
       
     </div>
 
@@ -645,7 +654,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#单个源文件的编译"><span class="nav-number">1.</span> <span class="nav-text">单个源文件的编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多个源文件的编译"><span class="nav-number">2.</span> <span class="nav-text">多个源文件的编译</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#单个源文件的编译"><span class="nav-number">1.</span> <span class="nav-text">单个源文件的编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多个源文件的编译"><span class="nav-number">2.</span> <span class="nav-text">多个源文件的编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成中间对象文件-o"><span class="nav-number">3.</span> <span class="nav-text">生成中间对象文件(.o)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考连接"><span class="nav-number">4.</span> <span class="nav-text">参考连接</span></a></li></ol></div>
             
 
           </div>
