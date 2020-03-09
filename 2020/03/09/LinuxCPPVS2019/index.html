@@ -96,16 +96,26 @@
 
 
 
-  <meta name="description" content="一个人到中年的 IT Farmer">
-<meta property="og:type" content="website">
-<meta property="og:title" content="JoeyMar`s Home">
-<meta property="og:url" content="https://lancermar.github.io/archives/2020/01/index.html">
+  <meta name="description" content="写C++果然还是用VS给力啊。最新版的VS2019支持linux C++的远程调试，搞了一下，有些小坑，这里记录一下 安装 VS2019 Linux的开发环境">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux的C\C++(一)：使用VS2019远程调试Linux C++程序">
+<meta property="og:url" content="https://lancermar.github.io/2020/03/09/LinuxCPPVS2019/index.html">
 <meta property="og:site_name" content="JoeyMar`s Home">
-<meta property="og:description" content="一个人到中年的 IT Farmer">
+<meta property="og:description" content="写C++果然还是用VS给力啊。最新版的VS2019支持linux C++的远程调试，搞了一下，有些小坑，这里记录一下 安装 VS2019 Linux的开发环境">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2020/03/09/LinuxCPPVS2019/VSinstall.JPG">
+<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2020/03/09/LinuxCPPVS2019/LinuxConsole.JPG">
+<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2020/03/09/LinuxCPPVS2019/ADDUbuntu.JPG">
+<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2020/03/09/LinuxCPPVS2019/HostName.JPG">
+<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2020/03/09/LinuxCPPVS2019/ConfigRemoteLinux.JPG">
+<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2020/03/09/LinuxCPPVS2019/ProjectFileTree.JPG">
+<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2020/03/09/LinuxCPPVS2019/LinuxConsoleWindow.JPG">
+<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2020/03/09/LinuxCPPVS2019/outPut.JPG">
+<meta property="og:updated_time" content="2020-03-09T03:52:28.013Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JoeyMar`s Home">
-<meta name="twitter:description" content="一个人到中年的 IT Farmer">
+<meta name="twitter:title" content="Linux的C\C++(一)：使用VS2019远程调试Linux C++程序">
+<meta name="twitter:description" content="写C++果然还是用VS给力啊。最新版的VS2019支持linux C++的远程调试，搞了一下，有些小坑，这里记录一下 安装 VS2019 Linux的开发环境">
+<meta name="twitter:image" content="https://lancermar.github.io/JoeyMar.git.io/2020/03/09/LinuxCPPVS2019/VSinstall.JPG">
 
 
 
@@ -113,7 +123,7 @@
 
   
   
-  <link rel="canonical" href="https://lancermar.github.io/archives/2020/01/">
+  <link rel="canonical" href="https://lancermar.github.io/2020/03/09/LinuxCPPVS2019/">
 
 
 
@@ -123,7 +133,7 @@
   };
 </script>
 
-  <title>归档 | JoeyMar`s Home</title>
+  <title>Linux的C\C++(一)：使用VS2019远程调试Linux C++程序 | JoeyMar`s Home</title>
   
 
 
@@ -171,7 +181,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -243,7 +253,7 @@
         
         
           
-          <li class="menu-item menu-item-archives menu-item-active">
+          <li class="menu-item menu-item-archives">
 
     
     
@@ -302,241 +312,213 @@
           
             
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
           
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lancermar.github.io/JoeyMar.git.io/2020/03/09/LinuxCPPVS2019/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="老马">
+      <meta itemprop="description" content="一个人到中年的 IT Farmer">
+      <meta itemprop="image" content="/JoeyMar.git.io/images/LufeiHeader.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JoeyMar`s Home">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">Linux的C\C++(一)：使用VS2019远程调试Linux C++程序
+
+              
+            
+          </h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-03-09 10:57:29 / 修改时间：11:52:28" itemprop="dateCreated datePublished" datetime="2020-03-09T10:57:29+08:00">2020-03-09</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
           
-        
-        嗯..! 目前共计 29 篇日志。 继续努力。
-      </span>
-      
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/JoeyMar.git.io/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2020">2020</h1>
-          </div>
-        
-        
 
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/JoeyMar.git.io/2020/01/19/CSharp-BackGroundWorker/" itemprop="url">
+          
             
-              <span itemprop="name">CSharp并发编程 —— EAP异步编程模式</span>
             
-          </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-01-19T09:21:17+08:00" content="2020-01-19">
-          01-19
-        </time>
-      </div>
+          
+          
 
-    </header>
-  </article>
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
 
+          
 
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/JoeyMar.git.io/2020/01/15/GZip/" itemprop="url">
-            
-              <span itemprop="name">CSharp流的压缩与解压缩实现</span>
-            
-          </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-01-15T16:09:39+08:00" content="2020-01-15">
-          01-15
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/JoeyMar.git.io/2020/01/15/M-Bridging/" itemprop="url">
-            
-              <span itemprop="name">桥接模式</span>
-            
-          </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-01-15T14:48:32+08:00" content="2020-01-15">
-          01-15
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <p>写C++果然还是用VS给力啊。最新版的VS2019支持linux C++的远程调试，搞了一下，有些小坑，这里记录一下</p>
+<h3 id="安装-VS2019-Linux的开发环境"><a href="#安装-VS2019-Linux的开发环境" class="headerlink" title="安装 VS2019 Linux的开发环境"></a>安装 VS2019 Linux的开发环境</h3><a id="more"></a>
+<p>下个vs2019，安装时需要勾选“使用C++的Linux开发” 工具集选项，（因为之前没有选，哈哈哈哈，后面的步骤搞了半天）<br><img src="/JoeyMar.git.io/2020/03/09/LinuxCPPVS2019/VSinstall.JPG" alt></p>
+<h3 id="配置unbuntu的SSH服务"><a href="#配置unbuntu的SSH服务" class="headerlink" title="配置unbuntu的SSH服务"></a>配置unbuntu的SSH服务</h3><ol>
+<li>安装C++环境（见 <a href="https://lancermar.github.io/JoeyMar.git.io/2020/02/14/LinuxCPPBuildEnv/">Linux的C\C++(一)：Linux从安装操作系统到搭建C++环境</a> ）；</li>
+<li><p>VS2019需要通过SSH服务远程登陆ubuntu系统，安装ssh服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install openssh-server g++ gdb gdbserver</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动SSH服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service ssh start</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="VS创建Linux-C-项目"><a href="#VS创建Linux-C-项目" class="headerlink" title="VS创建Linux C++项目"></a>VS创建Linux C++项目</h3><p>创建新项目，筛选Linux平台和C++语言，选择控制台应用创建即可。<br><img src="/JoeyMar.git.io/2020/03/09/LinuxCPPVS2019/LinuxConsole.JPG" alt><br>完成新建后，点击工具–&gt;选项–&gt;跨平台–&gt;连接管理器–&gt;添加；输入服务器的用户信息<br><img src="/JoeyMar.git.io/2020/03/09/LinuxCPPVS2019/ADDUbuntu.JPG" alt><br><img src="/JoeyMar.git.io/2020/03/09/LinuxCPPVS2019/HostName.JPG" alt><br>右键项目，属性–&gt;配置属性–&gt;常规–&gt;远程生成计算机；选择刚刚配置的服务器信息选项，点击应用。<br><img src="/JoeyMar.git.io/2020/03/09/LinuxCPPVS2019/ConfigRemoteLinux.JPG" alt><br>默认的远程生成根目录在”/projects”下面<br><img src="/JoeyMar.git.io/2020/03/09/LinuxCPPVS2019/ProjectFileTree.JPG" alt><br>选择调试–&gt;Linux控制台–&gt;运行<br><img src="/JoeyMar.git.io/2020/03/09/LinuxCPPVS2019/LinuxConsoleWindow.JPG" alt><br>输出：<br><img src="/JoeyMar.git.io/2020/03/09/LinuxCPPVS2019/outPut.JPG" alt></p>
+<h3 id="参考连接"><a href="#参考连接" class="headerlink" title="参考连接"></a>参考连接</h3><ol>
+<li><a href="https://ubuntu.com/download" target="_blank" rel="noopener">vs 2017的搭建Linux C++调试环境</a></li>
+<li><a href="https://docs.microsoft.com/zh-cn/cpp/linux/deploy-run-and-debug-your-linux-project?view=vs-2019" target="_blank" rel="noopener">官方文档</a></li>
+</ol>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/JoeyMar.git.io/2020/01/15/HPTimer/" itemprop="url">
-            
-              <span itemprop="name">CSharp实现高精度定时器</span>
-            
-          </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-01-15T10:33:04+08:00" content="2020-01-15">
-          01-15
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/JoeyMar.git.io/2020/01/13/CSharpUsualDataTools/" itemprop="url">
-            
-              <span itemprop="name">CSharp一些有用的处理数据的工具</span>
-            
-          </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-01-13T14:06:55+08:00" content="2020-01-13">
-          01-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/JoeyMar.git.io/2020/03/05/LinuxCPPCompileing/" rel="next" title="Linux的C\C++(二)：在Linux环境下编译C++程序">
+                <i class="fa fa-chevron-left"></i> Linux的C\C++(二)：在Linux环境下编译C++程序
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+  </div>
 
 
           </div>
           
+
+  
+
+
 
         </div>
         
@@ -556,8 +538,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -662,6 +653,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-VS2019-Linux的开发环境"><span class="nav-number">1.</span> <span class="nav-text">安装 VS2019 Linux的开发环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置unbuntu的SSH服务"><span class="nav-number">2.</span> <span class="nav-text">配置unbuntu的SSH服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VS创建Linux-C-项目"><span class="nav-number">3.</span> <span class="nav-text">VS创建Linux C++项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考连接"><span class="nav-number">4.</span> <span class="nav-text">参考连接</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
@@ -816,6 +824,10 @@
 
 
   
+  <script src="/JoeyMar.git.io/js/scrollspy.js?v=7.1.0"></script>
+<script src="/JoeyMar.git.io/js/post-details.js?v=7.1.0"></script>
+
+
 
   
 
@@ -831,6 +843,8 @@
 
   
 
+
+  
 
 
   
