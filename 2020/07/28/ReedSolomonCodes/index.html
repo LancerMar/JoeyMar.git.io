@@ -96,17 +96,22 @@
 
 
 
-  <meta name="description" content="一个人到中年的 IT Farmer">
+  <meta name="description" content="理解二维码的编码及技术，有一个点比较难啃的点：纠错码，在通信和密码学领域大量的被使用；这个数学概念可以直观的理解为：使数据结构话，当数据损坏时（错误，丢失，乱序等），通过修复相关的结构，来猜测出损坏的数据是什么，在数学上采用伽罗瓦域的多项式来实现； 伽罗瓦域">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CSharp生成与识别二维码（二）里德-所罗门码">
+<meta property="og:title" content="CSharp生成与识别二维码（二）纠错码">
 <meta property="og:url" content="https://lancermar.github.io/2020/07/28/ReedSolomonCodes/index.html">
 <meta property="og:site_name" content="JoeyMar`s Home">
-<meta property="og:description" content="一个人到中年的 IT Farmer">
+<meta property="og:description" content="理解二维码的编码及技术，有一个点比较难啃的点：纠错码，在通信和密码学领域大量的被使用；这个数学概念可以直观的理解为：使数据结构话，当数据损坏时（错误，丢失，乱序等），通过修复相关的结构，来猜测出损坏的数据是什么，在数学上采用伽罗瓦域的多项式来实现； 伽罗瓦域">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-07-28T07:13:36.419Z">
+<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2020/07/28/ReedSolomonCodes/yihuoADD.JPG">
+<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2020/07/28/ReedSolomonCodes/chengfa.JPG">
+<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2020/07/28/ReedSolomonCodes/RightFunc.JPG">
+<meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2020/07/28/ReedSolomonCodes/Wrong2Right.JPG">
+<meta property="og:updated_time" content="2020-07-28T11:16:46.971Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CSharp生成与识别二维码（二）里德-所罗门码">
-<meta name="twitter:description" content="一个人到中年的 IT Farmer">
+<meta name="twitter:title" content="CSharp生成与识别二维码（二）纠错码">
+<meta name="twitter:description" content="理解二维码的编码及技术，有一个点比较难啃的点：纠错码，在通信和密码学领域大量的被使用；这个数学概念可以直观的理解为：使数据结构话，当数据损坏时（错误，丢失，乱序等），通过修复相关的结构，来猜测出损坏的数据是什么，在数学上采用伽罗瓦域的多项式来实现； 伽罗瓦域">
+<meta name="twitter:image" content="https://lancermar.github.io/JoeyMar.git.io/2020/07/28/ReedSolomonCodes/yihuoADD.JPG">
 
 
 
@@ -124,7 +129,7 @@
   };
 </script>
 
-  <title>CSharp生成与识别二维码（二）里德-所罗门码 | JoeyMar`s Home</title>
+  <title>CSharp生成与识别二维码（二）纠错码 | JoeyMar`s Home</title>
   
 
 
@@ -340,7 +345,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">CSharp生成与识别二维码（二）里德-所罗门码
+          <h1 class="post-title" itemprop="name headline">CSharp生成与识别二维码（二）纠错码
 
               
             
@@ -366,7 +371,7 @@
                 
               
 
-              <time title="创建时间：2020-07-28 15:12:31 / 修改时间：15:13:36" itemprop="dateCreated datePublished" datetime="2020-07-28T15:12:31+08:00">2020-07-28</time>
+              <time title="创建时间：2020-07-28 15:12:31 / 修改时间：19:16:46" itemprop="dateCreated datePublished" datetime="2020-07-28T15:12:31+08:00">2020-07-28</time>
             
 
             
@@ -430,7 +435,28 @@
       
 
       
-        
+        <p>理解二维码的编码及技术，有一个点比较难啃的点：纠错码，在通信和密码学领域大量的被使用；<br>这个数学概念可以直观的理解为：使数据结构话，当数据损坏时（错误，丢失，乱序等），通过修复相关的结构，来猜测出损坏的数据是什么，在数学上采用伽罗瓦域的多项式来实现；</p>
+<h3 id="伽罗瓦域"><a href="#伽罗瓦域" class="headerlink" title="伽罗瓦域"></a>伽罗瓦域</h3><a id="more"></a>
+<p>域：一组元素的集合，以及在集合上的四则运算，构成一个域。其中加法和乘法必须满足交换、结合和分配的规律。加法和乘法具有封闭性，即加法和乘法结果仍然是域中的元素。<br>有限域：仅含有有限多个元素的域，即有限域GF（2^w）即表示含有2^w次方个元素的有限域，</p>
+<p>不深入了，深入了我也不懂。以G(2^3)为例简单说明一下，这里采用指数小于3的多项式：0,1,x,x+1,x^2,x^2+1,x^2 + x,x^2+x+1;用二进制表示其系数正好就是000,001,010,011,100,101,110,111；正好是由0,1,2,3,4,5,6,7;这8个数字构成</p>
+<ol>
+<li>加法减法：多项式加减法就是对两个数进行异或运算，如6和7异或（110异或111）=1；那么不管怎么加减都只能得到这个域里的数字如下图所示：<br><img src="/JoeyMar.git.io/2020/07/28/ReedSolomonCodes/yihuoADD.JPG" alt></li>
+<li>乘除法：如果mod大于7，则需要将结果模二除以固定的数值后取余数，那么我们可以得到如下表：<br><img src="/JoeyMar.git.io/2020/07/28/ReedSolomonCodes/chengfa.JPG" alt></li>
+</ol>
+<p>以下以一个简单的例子推导，仅作为理解，纠错码应用中所涉及算法更加复杂；</p>
+<h3 id="纠错码"><a href="#纠错码" class="headerlink" title="纠错码"></a>纠错码</h3><p>在这里以1234为原始信息，计算机中1字节为8位，那么一般以后四位作为纠错码，假设为P1,P2,P3,P4;即需要存储的信息为1234P1P2P3P4,将信息与纠错码作为多项式系数，每个位的位置作为指数那么就可以得到如下多项式：<br>m(x)=1x^7+2x^6+3x^5+4x^4<br>取一个固定的多项式与m(x)相除(假设得到得值为h(x))<br>g(x)=(x-2^0)(x-2^1)(x-2^2)(x-2^3)=x^3+4x^2+7x+5<br>两数相除得余数P(x)<br>P(x)=x^3+6x^2+7x+4</p>
+<p>——&gt;m(x)+P(x)=h(x)g(x)<br>新多项式刚好可以被g(x)整除，这样我们就可以将余数作为我们需要的4位纠错码即1674放在低四位，最后得到的1字节数据为12341674</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>如果任意修改原码中的两个数字如(修改为62241674)，那么新的多项式除以g(x)余数系数为1645，不为0，则所得数据异常<br>如果需要纠正错误，则需要知道错误位置，假设为e1，e2；对应大小y1，y2</p>
+<p>m(x)+P(x)=h(x)g(x),所以如果g(x)=0,那么m(x)+P(x)=0；g(x)=0；那么根据上面的固定值可知在x=2^0;2^1;2^2;2^3时g(x)=0;分别带入四个值得到如下四个方程：<br><img src="/JoeyMar.git.io/2020/07/28/ReedSolomonCodes/RightFunc.JPG" alt><br>将错误结果(62241674)带入方程可得四个错误的结果分别为6,0,4,5,因为这四个方程在正确的情况下结果一定为0，我们带入假设的错误位置与错误大小，即y1<em>2^e1+y2</em>2^e2;带入四个结果如下图所示：<br><img src="/JoeyMar.git.io/2020/07/28/ReedSolomonCodes/Wrong2Right.JPG" alt><br>这样4个方程组4个未知数，可以求出位置：e1=5;e2=7;大小：y1=1;y2=7；将第5位的错误值2(0010)与y1(0001)做异或运算得到3(0011);将第7位的错误值6(0110)与7(0111)做异或运算得到1(0001);将第五位与第七位替换为异或后的值，得到正确信息<br>（12341674）</p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
+<li>Polynomial Codes Over Certain Finite Fields   –I.S.REED AND G.SOLOMON</li>
+<li><a href="https://blog.csdn.net/shelldon/article/details/54729687" target="_blank" rel="noopener">伽罗华域</a></li>
+<li>回形针</li>
+<li><a href="https://www.baidu.com/s?wd=%E4%BA%8C%E7%BB%B4%E7%A0%81%E4%B8%AD%E7%9A%84%E9%87%8C%E5%BE%B7%E6%89%80%E7%BD%97%E9%97%A8%E7%A0%81&amp;rsv_spt=1&amp;rsv_iqid=0xf8e13b7300053cbe&amp;issp=1&amp;f=8&amp;rsv_bp=1&amp;rsv_idx=2&amp;ie=utf-8&amp;tn=baiduhome_pg&amp;rsv_enter=1&amp;rsv_dl=tb&amp;rsv_sug3=42&amp;rsv_sug1=16&amp;rsv_sug7=100&amp;rsv_t=1fe24esoy7KYIXrYmlGxbkCBgtAZTTzUhWsUQdG5trN%2FIV7bxDDmBLGO7YMB1J7o%2BAPu&amp;rsv_sug2=0&amp;rsv_btype=i&amp;inputT=9387&amp;rsv_sug4=10043" target="_blank" rel="noopener">二维码中的里德所罗门域</a></li>
+<li><a href="https://www.jianshu.com/p/c066fbc6c866" target="_blank" rel="noopener">https://www.jianshu.com/p/c066fbc6c866</a></li>
+<li><a href="https://baike.baidu.com/item/%E6%9C%89%E9%99%90%E5%9F%9F/4273049?fr=aladdin" target="_blank" rel="noopener">百度百科——有限域</a></li>
+</ol>
+
       
     </div>
 
@@ -469,6 +495,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/JoeyMar.git.io/2020/07/28/QRCodingDetail/" rel="prev" title="CSharp生成与识别二维码（三）二维码编码规则剖析">
+                CSharp生成与识别二维码（三）二维码编码规则剖析 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -512,8 +542,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -530,7 +569,7 @@
                 
                   <a href="/JoeyMar.git.io/archives/">
                 
-                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-count">32</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -618,6 +657,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#伽罗瓦域"><span class="nav-number">1.</span> <span class="nav-text">伽罗瓦域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#纠错码"><span class="nav-number">2.</span> <span class="nav-text">纠错码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#示例"><span class="nav-number">3.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
