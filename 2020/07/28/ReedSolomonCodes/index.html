@@ -107,7 +107,7 @@
 <meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2020/07/28/ReedSolomonCodes/chengfa.JPG">
 <meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2020/07/28/ReedSolomonCodes/RightFunc.JPG">
 <meta property="og:image" content="https://lancermar.github.io/JoeyMar.git.io/2020/07/28/ReedSolomonCodes/Wrong2Right.JPG">
-<meta property="og:updated_time" content="2020-07-28T11:16:46.971Z">
+<meta property="og:updated_time" content="2020-08-17T08:15:03.666Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CSharp生成与识别二维码（二）纠错码">
 <meta name="twitter:description" content="理解二维码的编码及技术，有一个点比较难啃的点：纠错码，在通信和密码学领域大量的被使用；这个数学概念可以直观的理解为：使数据结构话，当数据损坏时（错误，丢失，乱序等），通过修复相关的结构，来猜测出损坏的数据是什么，在数学上采用伽罗瓦域的多项式来实现； 伽罗瓦域">
@@ -371,12 +371,24 @@
                 
               
 
-              <time title="创建时间：2020-07-28 15:12:31 / 修改时间：19:16:46" itemprop="dateCreated datePublished" datetime="2020-07-28T15:12:31+08:00">2020-07-28</time>
+              <time title="创建时间：2020-07-28 15:12:31" itemprop="dateCreated datePublished" datetime="2020-07-28T15:12:31+08:00">2020-07-28</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-08-17 16:15:03" itemprop="dateModified" datetime="2020-08-17T16:15:03+08:00">2020-08-17</time>
               
             
           </span>
@@ -446,7 +458,7 @@
 <p>以下以一个简单的例子推导，仅作为理解，纠错码应用中所涉及算法更加复杂；</p>
 <h3 id="纠错码"><a href="#纠错码" class="headerlink" title="纠错码"></a>纠错码</h3><p>在这里以1234为原始信息，计算机中1字节为8位，那么一般以后四位作为纠错码，假设为P1,P2,P3,P4;即需要存储的信息为1234P1P2P3P4,将信息与纠错码作为多项式系数，每个位的位置作为指数那么就可以得到如下多项式：<br>m(x)=1x^7+2x^6+3x^5+4x^4<br>取一个固定的多项式与m(x)相除(假设得到得值为h(x))<br>g(x)=(x-2^0)(x-2^1)(x-2^2)(x-2^3)=x^3+4x^2+7x+5<br>两数相除得余数P(x)<br>P(x)=x^3+6x^2+7x+4</p>
 <p>——&gt;m(x)+P(x)=h(x)g(x)<br>新多项式刚好可以被g(x)整除，这样我们就可以将余数作为我们需要的4位纠错码即1674放在低四位，最后得到的1字节数据为12341674</p>
-<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>如果任意修改原码中的两个数字如(修改为62241674)，那么新的多项式除以g(x)余数系数为1645，不为0，则所得数据异常<br>如果需要纠正错误，则需要知道错误位置，假设为e1，e2；对应大小y1，y2</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>任意修改原码中的两个数字如(修改为62241674)，那么新的多项式除以g(x)余数系数为1645，不为0，则所得数据异常<br>如果需要纠正错误，则需要知道错误位置，假设为e1，e2；对应大小y1，y2</p>
 <p>m(x)+P(x)=h(x)g(x),所以如果g(x)=0,那么m(x)+P(x)=0；g(x)=0；那么根据上面的固定值可知在x=2^0;2^1;2^2;2^3时g(x)=0;分别带入四个值得到如下四个方程：<br><img src="/JoeyMar.git.io/2020/07/28/ReedSolomonCodes/RightFunc.JPG" alt><br>将错误结果(62241674)带入方程可得四个错误的结果分别为6,0,4,5,因为这四个方程在正确的情况下结果一定为0，我们带入假设的错误位置与错误大小，即y1<em>2^e1+y2</em>2^e2;带入四个结果如下图所示：<br><img src="/JoeyMar.git.io/2020/07/28/ReedSolomonCodes/Wrong2Right.JPG" alt><br>这样4个方程组4个未知数，可以求出位置：e1=5;e2=7;大小：y1=1;y2=7；将第5位的错误值2(0010)与y1(0001)做异或运算得到3(0011);将第7位的错误值6(0110)与7(0111)做异或运算得到1(0001);将第五位与第七位替换为异或后的值，得到正确信息<br>（12341674）</p>
 <h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
 <li>Polynomial Codes Over Certain Finite Fields   –I.S.REED AND G.SOLOMON</li>
